@@ -1,11 +1,14 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import Sequelize from 'sequelize';
 
 import { sequelize} from '../models';
 
 const { Expense } = sequelize.models;
 
-const PORT = process.env.PORT || 3000;
+const Op = Sequelize.Op;
+
+const PORT = process.env.PORT || 4242;
 const app = express();
 
 app.use(bodyParser.json());
@@ -28,9 +31,20 @@ const getById = async (req, res, next) => {
   }
 }
 
-const getExpenses = async (req, res, next) => {
+const getCurrentMonthExpenses = async (req, res, next) => {
   try {
-    const expenses = await Expense.findAll({ order: ['when'] });
+    const d = new Date();
+    const startOfMonth = new Date(d.getFullYear(), d.getMonth(), 1);
+    const endOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 1);
+
+    const expenses = await Expense.findAll({
+      where: {
+        date: {
+          [Op.between]: [startOfMonth, endOfMonth],
+        },
+      },
+      order: ['date'],
+    });
 
     return res.status(200).json(expenses);
 
@@ -41,7 +55,7 @@ const getExpenses = async (req, res, next) => {
 
 const createExpense = async (req, res, next) => {
   try {
-    const expense = await Expense.create({ ...req.body, when: new Date() });
+    const expense = await Expense.create(req.body);
 
     return res.status(201).json(expense);
 
@@ -72,11 +86,17 @@ const removeExpense = async (req, res, next) => {
   }
 };
 
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).end(err.toString());
+});
+
 app.param('id', getById);
 
-app.get('/', getExpenses);
+app.get('/', getCurrentMonthExpenses);
 app.post('/', createExpense);
 app.put('/:id', updateExpense);
 app.delete('/:id', removeExpense);
+
 
 app.listen(PORT, () => console.log(`App listening on port ${PORT}`));

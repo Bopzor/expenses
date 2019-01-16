@@ -8,16 +8,20 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      what: {
+      description: {
+        allowNull: false,
         type: Sequelize.STRING,
       },
-      when: {
+      date: {
+        allowNull: false,
         type: Sequelize.DATEONLY,
       },
-      how: {
+      cost: {
+        allowNull: false,
         type: Sequelize.INTEGER,
       },
-      who: {
+      buyer: {
+        allowNull: false,
         type: Sequelize.ENUM('Nils', 'Vio'),
       },
       createdAt: {

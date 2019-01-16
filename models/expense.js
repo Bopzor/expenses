@@ -1,10 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Expense = sequelize.define('Expense', {
-    what: DataTypes.STRING,
-    when: DataTypes.DATEONLY,
-    how: DataTypes.INTEGER,
-    who: DataTypes.ENUM('Nils', 'Vio'),
+    description: DataTypes.STRING,
+    date: DataTypes.DATEONLY,
+    cost: DataTypes.INTEGER,
+    buyer: DataTypes.ENUM('Nils', 'Vio'),
   }, {});
   Expense.associate = function(models) {
     // associations can be defined here
