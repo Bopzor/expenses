@@ -1,18 +1,12 @@
 import express from 'express';
-import bodyParser from 'body-parser';
-import Sequelize from 'sequelize';
 
-import { sequelize} from '../models';
+import Sequelize from 'sequelize';
+import { sequelize } from '../models';
+
+const router = express.Router();
 
 const { Expense } = sequelize.models;
-
 const Op = Sequelize.Op;
-
-const PORT = process.env.PORT || 4242;
-const app = express();
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 const getById = async (req, res, next) => {
   try {
@@ -26,14 +20,19 @@ const getById = async (req, res, next) => {
       next();
     }
 
-  } catch {
-    next()
+  } catch (e) {
+    nexte(e)
   }
 }
 
-const getCurrentMonthExpenses = async (req, res, next) => {
+const getMonthExpenses = async (req, res, next) => {
   try {
-    const d = new Date();
+    let d = new Date();
+
+    if (req.query.month && req.query.year) {
+      d = new Date(req.query.year, req.query.month);
+    }
+
     const startOfMonth = new Date(d.getFullYear(), d.getMonth(), 1);
     const endOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 1);
 
@@ -48,8 +47,8 @@ const getCurrentMonthExpenses = async (req, res, next) => {
 
     return res.status(200).json(expenses);
 
-  } catch {
-    next();
+  } catch (e) {
+    next(e);
   }
 };
 
@@ -59,8 +58,8 @@ const createExpense = async (req, res, next) => {
 
     return res.status(201).json(expense);
 
-  } catch {
-    next();
+  } catch (e) {
+    next(e);
   }
 };
 
@@ -70,8 +69,8 @@ const updateExpense = async (req, res, next) => {
 
     return res.status(200).json(expense);
 
-  } catch {
-    next()
+  } catch (e) {
+    nexte()
   }
 };
 
@@ -81,22 +80,17 @@ const removeExpense = async (req, res, next) => {
 
     return res.status(204).end();
 
-  } catch {
-    next();
+  } catch (e) {
+    next(e);
   }
 };
 
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).end(err.toString());
-});
+router.param('id', getById);
 
-app.param('id', getById);
+router.get('/', getMonthExpenses);
 
-app.get('/', getCurrentMonthExpenses);
-app.post('/', createExpense);
-app.put('/:id', updateExpense);
-app.delete('/:id', removeExpense);
+router.post('/', createExpense);
+router.put('/:id', updateExpense);
+router.delete('/:id', removeExpense);
 
-
-app.listen(PORT, () => console.log(`App listening on port ${PORT}`));
+module.exports = router;
