@@ -1,6 +1,6 @@
 import myFetch from '../../myFetch';
 
-const BASE_URL = 'http://192.168.0.17:4242';
+const BASE_URL = 'http://192.168.0.17:4242/expenses';
 
 // GET EXPENSES:
 export const GET_EXPENSES_REQUEST = 'GET_EXPENSES_REQUEST';
@@ -25,8 +25,8 @@ const getExpenses = {
   }),
 };
 
-export const fetchExpenses = () => dispatch => {
-  const url = BASE_URL;
+export const fetchExpenses = (dateFilter = undefined) => dispatch => {
+  const url = `BASE_URL?year=${dateFilter.getFullYear()}&month=${dateFilter.getMonth()}`;
 
   dispatch(getExpenses.REQUEST());
 
@@ -166,11 +166,3 @@ export const editExpense = expense => dispatch => {
     )
     .then(() => dispatch(updateExpense.FINISH()));
 };
-
-// DATE FILTER:
-export const SET_DATE_FILTER = 'SET_DATE_FILTER';
-
-export const setDateFilter = date => ({
-  type: SET_DATE_FILTER,
-  body: date,
-});

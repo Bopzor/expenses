@@ -15,10 +15,9 @@ import {
   UPDATE_EXPENSE_SUCCESS,
   UPDATE_EXPENSE_FAILURE,
   UPDATE_EXPENSE_FINISH,
-  SET_DATE_FILTER,
 } from '../actions';
 
-const expensesApp = (state = { fetchingExpenses: false, error: null, expenses: [], addingExpense: false, removingExpense: false, updatingExpense: false, dateFilter: new Date() }, action) => {
+const expenses = (state = { fetchingExpenses: false, error: null, list: [], addingExpense: false, removingExpense: false, updatingExpense: false }, action) => {
   switch (action.type) {
 
     case GET_EXPENSES_REQUEST:
@@ -30,7 +29,7 @@ const expensesApp = (state = { fetchingExpenses: false, error: null, expenses: [
     case GET_EXPENSES_SUCCESS:
       return {
         ...state,
-        expenses: action.body,
+        list: action.body,
       };
 
     case GET_EXPENSES_FAILURE:
@@ -54,7 +53,7 @@ const expensesApp = (state = { fetchingExpenses: false, error: null, expenses: [
     case ADD_EXPENSE_SUCCESS:
       return {
         ...state,
-        expenses: [ ...state.expenses, action.body ],
+        list: [ ...state.list, action.body ],
       };
 
     case ADD_EXPENSE_FAILURE:
@@ -78,7 +77,7 @@ const expensesApp = (state = { fetchingExpenses: false, error: null, expenses: [
     case REMOVE_EXPENSE_SUCCESS:
       return {
         ...state,
-        expenses: state.expenses.filter(e => e.id !== action.body),
+        list: state.list.filter(e => e.id !== action.body),
       };
 
     case REMOVE_EXPENSE_FAILURE:
@@ -100,14 +99,14 @@ const expensesApp = (state = { fetchingExpenses: false, error: null, expenses: [
       };
 
     case UPDATE_EXPENSE_SUCCESS:
-      const idx = state.expenses.findIndex(e => e.id === action.body.id);
+      const idx = state.list.findIndex(e => e.id === action.body.id);
 
       return {
         ...state,
-        expenses: [
-          ...state.expenses.slice(0, idx),
+        list: [
+          ...state.list.slice(0, idx),
           action.body,
-          ...state.expenses.slice(idx + 1),
+          ...state.list.slice(idx + 1),
         ]
       };
 
@@ -123,16 +122,9 @@ const expensesApp = (state = { fetchingExpenses: false, error: null, expenses: [
         updatingExpense: false,
       };
 
-    // TODO: SPECIFIC REDUCER
-    case SET_DATE_FILTER:
-      return {
-        ...state,
-        dateFilter: action.body,
-      }
-
     default:
       return state;
   }
 };
 
-export default expensesApp;
+export default expenses;

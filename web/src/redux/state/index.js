@@ -1,12 +1,21 @@
 /*
   state = {
-    fetchingExpenses: boolean,
-    addingExpense: boolean,
-    updatingExpense: boolean,
-    removingExpense: boolean,
-    dateFilter: Date(YYYY, MM),
-    error: null | Error,
-    expenses: Expenses[],
+    expenses: {
+      fetchingExpenses: boolean,
+      addingExpense: boolean,
+      updatingExpense: boolean,
+      removingExpense: boolean,
+      error: null | Error,
+      list: Expenses[],
+    },
+    advances: {
+      fetchingAdvances: boolean,
+      addingAdvance: boolean,
+      updatingAdvance: boolean,
+      removingAdvance: boolean,
+      error: null | Error,
+      list: Advances[],
+    }
   }
 
   Expenses = {
@@ -16,4 +25,13 @@
     cost: number,
     buyer: string,
   }
+
+  Expenses = {
+    id: int,
+    description: string,
+    date: string,
+    cost: number,
+    buyer: string,
+  }
+
  */
