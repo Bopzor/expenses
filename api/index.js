@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import expressValidator from 'express-validator';
 
 import expenses from './expenses';
 import advances from './advances';
@@ -12,6 +13,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressValidator());
 
 app.use((req, res, next) => {
   req.sequelize = sequelize;

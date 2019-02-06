@@ -3,6 +3,9 @@ import express from 'express';
 import Sequelize from 'sequelize';
 import { sequelize } from '../models';
 
+import { validationResult } from 'express-validator/check';
+import validate from './validate';
+
 const router = express.Router();
 
 const { Expense } = sequelize.models;
@@ -54,6 +57,12 @@ const getMonthExpenses = async (req, res, next) => {
 
 const createExpense = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
     const expense = await Expense.create(req.body);
 
     return res.status(201).json(expense);
@@ -65,6 +74,12 @@ const createExpense = async (req, res, next) => {
 
 const updateExpense = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
     const expense = await req.expense.update(req.body);
 
     return res.status(200).json(expense);
@@ -89,8 +104,8 @@ router.param('id', getById);
 
 router.get('/', getMonthExpenses);
 
-router.post('/', createExpense);
-router.put('/:id', updateExpense);
+router.post('/', validate(), createExpense);
+router.put('/:id', validate(), updateExpense);
 router.delete('/:id', removeExpense);
 
 module.exports = router;

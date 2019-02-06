@@ -15,6 +15,7 @@
     "@babel/runtime": "^7.2.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "express-validator": "^5.3.1",
     "parse-csv": "^0.2.0",
     "pg": "^7.7.1",
     "pg-hstore": "^2.3.2",

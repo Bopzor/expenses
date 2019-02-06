@@ -3,6 +3,9 @@ import express from 'express';
 import Sequelize from 'sequelize';
 import { sequelize } from '../models';
 
+import { validationResult } from 'express-validator/check';
+import validate from './validate';
+
 const router = express.Router();
 
 const { Advance } = sequelize.models;
@@ -55,6 +58,12 @@ const getMonthAdvances = async (req, res, next) => {
 
 const createAdvance = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
     const advance = await Advance.create(req.body);
 
     return res.status(201).json(advance);
@@ -66,6 +75,12 @@ const createAdvance = async (req, res, next) => {
 
 const updateAdvance = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
     const advance = await req.advance.update(req.body);
 
     return res.status(200).json(advance);
@@ -90,8 +105,8 @@ router.param('id', getById);
 
 router.get('/', getMonthAdvances);
 
-router.post('/', createAdvance);
-router.put('/:id', updateAdvance);
+router.post('/', validate(), createAdvance);
+router.put('/:id', validate(), updateAdvance);
 router.delete('/:id', removeAdvance);
 
 module.exports = router;
