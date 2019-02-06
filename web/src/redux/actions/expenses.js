@@ -1,4 +1,5 @@
-import myFetch from '../../myFetch';
+import { myFetch } from '../../utilities';
+import { fetchTotal } from './total';
 
 const BASE_URL = 'http://192.168.0.17:4242/expenses';
 
@@ -26,7 +27,11 @@ const getExpenses = {
 };
 
 export const fetchExpenses = (dateFilter = undefined) => dispatch => {
-  const url = `BASE_URL?year=${dateFilter.getFullYear()}&month=${dateFilter.getMonth()}`;
+  let url = BASE_URL;
+
+  if (dateFilter) {
+    url += `?year=${dateFilter.getFullYear()}&month=${dateFilter.getMonth()}`;
+  }
 
   dispatch(getExpenses.REQUEST());
 
@@ -78,7 +83,8 @@ export const createExpense = expense => dispatch => {
       expense => dispatch(addExpense.SUCCESS(expense)),
       error => dispatch(addExpense.FAILURE(error)),
     )
-    .then(() => dispatch(addExpense.FINISH()));
+    .then(() => dispatch(addExpense.FINISH()))
+    .then(() => dispatch(fetchTotal()));
 };
 
 // REMOVE EXPENSE:
@@ -120,7 +126,8 @@ export const deleteExpense = id => dispatch => {
       () => dispatch(removeExpense.SUCCESS(id)),
       error => dispatch(removeExpense.FAILURE(error)),
     )
-    .then(() => dispatch(removeExpense.FINISH()));
+    .then(() => dispatch(removeExpense.FINISH()))
+    .then(() => dispatch(fetchTotal()));
 };
 
 
@@ -164,5 +171,6 @@ export const editExpense = expense => dispatch => {
       expense => dispatch(updateExpense.SUCCESS(expense)),
       error => dispatch(updateExpense.FAILURE(error)),
     )
-    .then(() => dispatch(updateExpense.FINISH()));
+    .then(() => dispatch(updateExpense.FINISH()))
+    .then(() => dispatch(fetchTotal()));
 };

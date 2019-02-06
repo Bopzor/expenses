@@ -15,6 +15,20 @@
       removingAdvance: boolean,
       error: null | Error,
       list: Advances[],
+    },
+    total: {
+      fetchingTotal: boolean,
+      error: null | Error,
+      total: {
+        Nils: {
+          expenses: INT,
+          advances: INT,
+        },
+        Vio:{
+          expenses: INT,
+          advances: INT,
+        },
+      },
     }
   }
 

@@ -1,4 +1,5 @@
-import myFetch from '../../myFetch';
+import { myFetch } from '../../utilities';
+import { fetchTotal } from './total';
 
 const BASE_URL = 'http://192.168.0.17:4242/advances';
 
@@ -26,7 +27,11 @@ const getAdvances = {
 };
 
 export const fetchAdvances = (dateFilter = undefined) => dispatch => {
-  const url = `BASE_URL?year=${dateFilter.getFullYear()}&month=${dateFilter.getMonth()}`;
+  let url = BASE_URL;
+
+  if (dateFilter) {
+    url += `?year=${dateFilter.getFullYear()}&month=${dateFilter.getMonth()}`;
+  }
 
   dispatch(getAdvances.REQUEST());
 
@@ -61,7 +66,7 @@ const addAdvance = {
   }),
 };
 
-export const createadvance = advance => dispatch => {
+export const createAdvance = advance => dispatch => {
   const url = BASE_URL;
   const opts = {
     method: 'POST',
@@ -78,7 +83,8 @@ export const createadvance = advance => dispatch => {
       advance=> dispatch(addAdvance.SUCCESS(advance)),
       error => dispatch(addAdvance.FAILURE(error)),
     )
-    .then(() => dispatch(addAdvance.FINISH()));
+    .then(() => dispatch(addAdvance.FINISH()))
+    .then(() => dispatch(fetchTotal()));
 };
 
 // REMOVE ADVANCE:
@@ -120,7 +126,8 @@ export const deleteAdvance = id => dispatch => {
       () => dispatch(removeAdvance.SUCCESS(id)),
       error => dispatch(removeAdvance.FAILURE(error)),
     )
-    .then(() => dispatch(removeAdvance.FINISH()));
+    .then(() => dispatch(removeAdvance.FINISH()))
+    .then(() => dispatch(fetchTotal()));
 };
 
 
@@ -164,5 +171,6 @@ export const editAdvance = advance => dispatch => {
       advance => dispatch(updateAdvance.SUCCESS(advance)),
       error => dispatch(updateAdvance.FAILURE(error)),
     )
-    .then(() => dispatch(updateAdvance.FINISH()));
+    .then(() => dispatch(updateAdvance.FINISH()))
+    .then(() => dispatch(fetchTotal()));
 };
