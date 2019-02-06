@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 
 import expenses from './expenses';
 import advances from './advances';
+import total from './total';
 
 import { sequelize} from '../models';
 
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
 
 app.use('/expenses', expenses);
 app.use('/advances', advances);
+app.use('/total', total);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
