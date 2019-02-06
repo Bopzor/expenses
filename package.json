@@ -6,7 +6,7 @@
   "author": "bopzor",
   "license": "MIT",
   "scripts": {
-    "start": "node index.js",
+    "start": "node lib/index.js",
     "build": "babel api -d lib"
   },
   "dependencies": {
