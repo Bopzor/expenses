@@ -34,7 +34,7 @@ const getMonthAdvances = async (req, res, next) => {
       d = new Date(req.query.year, req.query.month)
     }
 
-    const startOfMonth = new Date(d.getFullYear(), d.getMonth(), 1);
+    const startOfMonth = new Date(d.getFullYear(), d.getMonth(), 2);
     const endOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 1);
 
     const advances = await Advance.findAll({
@@ -89,6 +89,7 @@ const removeAdvance = async (req, res, next) => {
 router.param('id', getById);
 
 router.get('/', getMonthAdvances);
+
 router.post('/', createAdvance);
 router.put('/:id', updateAdvance);
 router.delete('/:id', removeAdvance);
