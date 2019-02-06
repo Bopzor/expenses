@@ -4,20 +4,22 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import { BrowserRouter } from 'react-router-dom';
+
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 
 import { createLogger } from 'redux-logger';
 
 import thunkMiddleware from 'redux-thunk';
-import { expensesApp } from './redux/reducers';
+import { rootReducer } from './redux/reducers';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const logger = createLogger({ collapsed: true, diff: true });
 
 const store = createStore(
-  expensesApp,
+  rootReducer,
   applyMiddleware(
     thunkMiddleware,
     logger
@@ -26,7 +28,9 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
   document.getElementById('root')
 );
