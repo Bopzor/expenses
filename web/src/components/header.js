@@ -1,93 +1,107 @@
 import React, { Component} from 'react';
-import {
-    Navbar,
-    NavbarBrand,
-    NavbarToggler,
-    Nav,
-    NavItem,
-    NavLink,
-    Collapse
-} from 'reactstrap';
+import { Input, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
 
-import { connect } from 'react-redux';
+import { formatDate } from '../utilities';
+
+import './header.css'
 
 class Header extends Component {
+
   state = {
-    isOpen: false,
+    popoverOpen: false,
+    date: '',
   };
 
-toggle() {
-  this.setState({
-    isOpen: !this.state.isOpen
-  });
-}
+  toggle() {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
+  }
 
   formatNavLink(date) {
     return (
-      <NavLink href={`/${date.getFullYear()}-${date.getMonth()}`}>
-        {`${date.getMonth() + 1}/${date.getFullYear()}`}
+      <NavLink to="/month">
+        {formatDate(date)}
       </NavLink>
     )
   }
 
-  formatDate() {
-    const { date } = this.props;
-    let month = date.getMonth() + 1;
-
-    if (month < 10)
-      month = `0${month}`;
-
-    return `${month}/${this.props.date.getFullYear()}`;
+  dateChange(e) {
+    this.setState({ date: e.target.value });
   }
 
   render() {
-    const currentDate = new Date();
-    const date = this.formatDate();
+    if (!this.props.navPaths) {
+      return (
+        <nav className="header">
+
+          <span onClick={() => this.toggle()}>
+            {this.formatNavLink(this.props.date)}
+            <i className="far fa-calendar-alt"></i>
+
+            <Modal isOpen={this.state.modal} toggle={() => this.toggle()}>
+              <ModalHeader toggle={() => this.toggle()}>Change date</ModalHeader>
+              <ModalBody>
+                <Input
+                  type="date"
+                  value={this.state.date}
+                  placeholder={this.state.date}
+                  onChange={e => this.dateChange(e)}
+                />
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onClick={() => {
+                  this.props.changeDate(this.state.date)
+                  this.toggle()
+                }}>Change</Button>{' '}
+                <Button color="secondary" onClick={() => this.toggle()}>Cancel</Button>
+              </ModalFooter>
+            </Modal>
+          </span>
+
+        </nav>
+      )
+    }
 
     return (
-      <Navbar color="light" light expand="sm">
+        <nav className="header">
 
-        <NavbarBrand href="/">Expenses - {date}</NavbarBrand>
-        <NavbarToggler onClick={() => this.toggle()} />
+          <NavLink exact to={`${this.props.navPaths[0].path}`} activeClassName="active">
+            {this.props.navPaths[0].pathname}
+          </NavLink>
 
-        <Collapse isOpen={this.state.isOpen} navbar>
-          <Nav>
+          <NavLink to={`${this.props.navPaths[1].path}`}>
+            {this.props.navPaths[1].pathname}
+          </NavLink>
 
-            <NavItem>
-              <NavLink href="/">Add</NavLink>
-            </NavItem>
+          <span onClick={() => this.toggle()}>
+            {this.formatNavLink(this.props.date)}
+            <i className="far fa-calendar-alt"></i>
 
-            <NavItem>
-              {this.formatNavLink(currentDate)}
-            </NavItem>
+            <Modal isOpen={this.state.modal} toggle={() => this.toggle()}>
+              <ModalHeader toggle={() => this.toggle()}>Change date</ModalHeader>
+              <ModalBody>
+                <Input
+                  type="date"
+                  value={this.state.date}
+                  placeholder={this.state.date}
+                  onChange={e => this.dateChange(e)}
+                />
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onClick={() => {
+                  this.props.changeDate(this.state.date)
+                  this.toggle()
+                }}>Change</Button>{' '}
+                <Button color="secondary" onClick={() => this.toggle()}>Cancel</Button>
+              </ModalFooter>
+            </Modal>
+          </span>
 
-            <NavItem>
-                {this.formatNavLink(
-                  new Date(currentDate.getFullYear(), currentDate.getMonth() - 1)
-                )}
-            </NavItem>
-
-            <NavItem>
-                {this.formatNavLink(
-                  new Date(currentDate.getFullYear(), currentDate.getMonth() - 2)
-                )}
-            </NavItem>
-
-            <NavItem>
-                {this.formatNavLink(
-                  new Date(currentDate.getYear(), currentDate.getMonth() - 3)
-                )}
-            </NavItem>
-
-          </Nav>
-        </Collapse>
-      </Navbar>
+        </nav>
     );
   }
 };
 
-const mapStateToProps = state => ({
-  date: state.dateFilter,
-});
-
-export default connect(mapStateToProps)(Header);
+export default Header;
