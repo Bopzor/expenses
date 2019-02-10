@@ -52,18 +52,18 @@ class PayementItemInput extends React.Component {
     const errors = [];
 
     if (this.state.description === '') {
-      errors.push({ field: 'description', message: 'This field is required.' });
+      errors.push({ param: 'description', msg: 'This field is required.' });
     }
 
     if (this.state.cost === '') {
-      errors.push({ field: 'cost', message: 'This field is required.' });
+      errors.push({ param: 'cost', msg: 'This field is required.' });
 
     } else if (isNaN(this.state.cost)) {
-      errors.push({ field: 'cost', message: 'This field must be an number.' });
+      errors.push({ param: 'cost', msg: 'This field must be an number.' });
     }
 
     if (this.state.buyer !== 'Nils' && this.state.buyer !== 'Vio') {
-      errors.push({ field: 'buyer', message: `You must select one buyer.` });
+      errors.push({ param: 'buyer', msg: `You must select one buyer.` });
     }
 
     return new Promise(resolve => this.setState({ formErrors: errors }, resolve));
@@ -84,10 +84,14 @@ class PayementItemInput extends React.Component {
 
     if (!this.props.payementItem) {
       await this.props.createPayementItem(this.state);
+
       await this.validateForm();
 
       if (this.props.errors === null) {
-        this.setState({ redirect })
+        this.setState({ redirect });
+
+      } else {
+        this.setState({ formErrors: this.props.errors.errors })
       }
 
     } else {
@@ -95,7 +99,10 @@ class PayementItemInput extends React.Component {
       await this.validateForm();
 
       if (this.props.errors === null) {
-        this.setState({ redirect })
+        this.setState({ redirect });
+
+      } else {
+        this.setState({ formErrors: this.props.errors.errors })
       }
 
     }
@@ -163,7 +170,7 @@ class PayementItemInput extends React.Component {
 
     return (
       <div className="feedback">
-        {this.state.formErrors[index].message}
+        {this.state.formErrors[index].msg}
       </div>
     )
   }
@@ -171,9 +178,10 @@ class PayementItemInput extends React.Component {
   render() {
     const buttonValue = this.props.payementItem ? 'Edit' : 'Add';
 
-    const descriptionErrorIdx = this.state.formErrors.findIndex(i => i.field === 'description');
-    const costErrorIdx = this.state.formErrors.findIndex(i => i.field === 'cost');
-    const buyerErrorIdx = this.state.formErrors.findIndex(i => i.field === 'buyer');
+    const dateErrorIdx = this.state.formErrors.findIndex(i => i.param === 'date');
+    const descriptionErrorIdx = this.state.formErrors.findIndex(i => i.param === 'description');
+    const costErrorIdx = this.state.formErrors.findIndex(i => i.param === 'cost');
+    const buyerErrorIdx = this.state.formErrors.findIndex(i => i.param === 'buyer');
 
     if (this.state.redirect !== '') {
       return <Redirect to={this.state.redirect} />
@@ -189,7 +197,10 @@ class PayementItemInput extends React.Component {
               value={this.state.date}
               placeholder={this.state.date}
               onChange={e => this.dateChange(e)}
+              invalid={dateErrorIdx >= 0}
             />
+
+            {this.renderFeedback(dateErrorIdx)}
 
           </Col>
         </FormGroup>
