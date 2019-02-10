@@ -19,7 +19,7 @@ const getAdvances = {
   }),
   FAILURE: error => ({
     type: GET_ADVANCES_FAILURE,
-    body: error,
+    body: error.body,
   }),
   FINISH: () => ({
     type: GET_ADVANCES_FINISH,
@@ -59,7 +59,7 @@ const addAdvance = {
   }),
   FAILURE: error => ({
     type: ADD_ADVANCE_FAILURE,
-    body: error,
+    body: error.body,
   }),
   FINISH: () => ({
     type: ADD_ADVANCE_FINISH,
@@ -80,7 +80,7 @@ export const createAdvance = advance => dispatch => {
 
   return myFetch(url, opts)
     .then(
-      advance=> dispatch(addAdvance.SUCCESS(advance)),
+      advance => dispatch(addAdvance.SUCCESS(advance)),
       error => dispatch(addAdvance.FAILURE(error)),
     )
     .then(() => dispatch(addAdvance.FINISH()))
@@ -103,7 +103,7 @@ const removeAdvance = {
   }),
   FAILURE: error => ({
     type: REMOVE_ADVANCE_FAILURE,
-    body: error,
+    body: error.body,
   }),
   FINISH: () => ({
     type: REMOVE_ADVANCE_FINISH,
@@ -147,7 +147,7 @@ const updateAdvance = {
   }),
   FAILURE: error => ({
     type: UPDATE_ADVANCE_FAILURE,
-    body: error,
+    body: error.body,
   }),
   FINISH: () => ({
     type: UPDATE_ADVANCE_FINISH,

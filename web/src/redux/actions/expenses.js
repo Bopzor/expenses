@@ -59,7 +59,7 @@ const addExpense = {
   }),
   FAILURE: error => ({
     type: ADD_EXPENSE_FAILURE,
-    body: error,
+    body: error.body,
   }),
   FINISH: () => ({
     type: ADD_EXPENSE_FINISH,
@@ -103,7 +103,7 @@ const removeExpense = {
   }),
   FAILURE: error => ({
     type: REMOVE_EXPENSE_FAILURE,
-    body: error,
+    body: error.body,
   }),
   FINISH: () => ({
     type: REMOVE_EXPENSE_FINISH,
@@ -147,7 +147,7 @@ const updateExpense = {
   }),
   FAILURE: error => ({
     type: UPDATE_EXPENSE_FAILURE,
-    body: error,
+    body: error.body,
   }),
   FINISH: () => ({
     type: UPDATE_EXPENSE_FINISH,
