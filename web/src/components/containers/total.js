@@ -5,8 +5,8 @@ import TotalComponent from '../presentationals/totalComponent';
 
 const mapStateToProps = state => ({
   total: state.total.total,
-  fetching: state.expenses.fetchingExpenses,
-  error: state.expenses.error,
+  fetching: state.total.fetchingTotal,
+  error: state.total.error,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -5,6 +5,7 @@ import PayementItemInput from '../presentationals/payementItemInput';
 
 const mapsStateToProps = state => ({
   isSubmitting: state.expenses.addingExpense,
+  errors: state.expenses.errors,
 });
 
 const mapDispatchToProps = dispatch => ({
