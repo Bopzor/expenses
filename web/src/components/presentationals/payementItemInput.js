@@ -83,13 +83,24 @@ class PayementItemInput extends React.Component {
       '/month';
 
     if (!this.props.payementItem) {
-      this.props.createPayementItem(this.state);
+      this.props.createPayementItem(this.state)
+        .then(async () => await this.validateForm())
+        .then(() => {
+          if (this.props.errors === null) {
+            this.setState({ redirect })
+          }
+        });
 
-    } else {
-      this.props.editPayementItem(this.state);
+      } else {
+      this.props.editPayementItem(this.state)
+        .then(async () => await this.validateForm())
+        .then(() => {
+          if (this.props.errors === null) {
+            this.setState({ redirect })
+          }
+        });
     }
 
-    this.setState({ redirect });
   }
 
   dateChange(e) {
