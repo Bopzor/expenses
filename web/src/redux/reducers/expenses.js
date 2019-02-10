@@ -17,13 +17,14 @@ import {
   UPDATE_EXPENSE_FINISH,
 } from '../actions';
 
-const expenses = (state = { fetchingExpenses: false, error: null, list: [], addingExpense: false, removingExpense: false, updatingExpense: false }, action) => {
+const expenses = (state = { fetchingExpenses: false, errors: null, list: [], addingExpense: false, removingExpense: false, updatingExpense: false }, action) => {
   switch (action.type) {
 
     case GET_EXPENSES_REQUEST:
       return {
         ...state,
         fetchingExpenses: true,
+        errors: null,
       };
 
     case GET_EXPENSES_SUCCESS:
@@ -35,7 +36,7 @@ const expenses = (state = { fetchingExpenses: false, error: null, list: [], addi
     case GET_EXPENSES_FAILURE:
       return {
         ...state,
-        error: action.body,
+        errors: action.body,
       };
 
     case GET_EXPENSES_FINISH:
@@ -48,6 +49,7 @@ const expenses = (state = { fetchingExpenses: false, error: null, list: [], addi
       return {
         ...state,
         addingExpense: true,
+        errors: null,
       };
 
     case ADD_EXPENSE_SUCCESS:
@@ -59,7 +61,7 @@ const expenses = (state = { fetchingExpenses: false, error: null, list: [], addi
     case ADD_EXPENSE_FAILURE:
       return {
         ...state,
-        error: action.body,
+        errors: action.body,
       };
 
     case ADD_EXPENSE_FINISH:
@@ -72,6 +74,7 @@ const expenses = (state = { fetchingExpenses: false, error: null, list: [], addi
       return {
         ...state,
         removingExpense: true,
+        errors: null,
       };
 
     case REMOVE_EXPENSE_SUCCESS:
@@ -83,7 +86,7 @@ const expenses = (state = { fetchingExpenses: false, error: null, list: [], addi
     case REMOVE_EXPENSE_FAILURE:
       return {
         ...state,
-        error: action.body,
+        errors: action.body,
       };
 
     case REMOVE_EXPENSE_FINISH:
@@ -96,6 +99,7 @@ const expenses = (state = { fetchingExpenses: false, error: null, list: [], addi
       return {
         ...state,
         updatingExpense: true,
+        errors: null,
       };
 
     case UPDATE_EXPENSE_SUCCESS:
@@ -113,7 +117,7 @@ const expenses = (state = { fetchingExpenses: false, error: null, list: [], addi
     case UPDATE_EXPENSE_FAILURE:
       return {
         ...state,
-        error: action.body,
+        errors: action.body,
       };
 
     case UPDATE_EXPENSE_FINISH:

@@ -17,13 +17,14 @@ import {
   UPDATE_ADVANCE_FINISH,
 } from '../actions';
 
-const advances = (state = { fetchingAdvances: false, error: null, list: [], addingAdvance: false, removingAdvance: false, updatingAdvance: false }, action) => {
+const advances = (state = { fetchingAdvances: false, errors: null, list: [], addingAdvance: false, removingAdvance: false, updatingAdvance: false }, action) => {
   switch (action.type) {
 
     case GET_ADVANCES_REQUEST:
       return {
         ...state,
         fetchingAdvances: true,
+        errors: null,
       };
 
     case GET_ADVANCES_SUCCESS:
@@ -35,7 +36,7 @@ const advances = (state = { fetchingAdvances: false, error: null, list: [], addi
     case GET_ADVANCES_FAILURE:
       return {
         ...state,
-        error: action.body,
+        errors: action.body,
       };
 
     case GET_ADVANCES_FINISH:
@@ -48,6 +49,7 @@ const advances = (state = { fetchingAdvances: false, error: null, list: [], addi
       return {
         ...state,
         addingAdvance: true,
+        errors: null,
       };
 
     case ADD_ADVANCE_SUCCESS:
@@ -59,7 +61,7 @@ const advances = (state = { fetchingAdvances: false, error: null, list: [], addi
     case ADD_ADVANCE_FAILURE:
       return {
         ...state,
-        error: action.body,
+        errors: action.body,
       };
 
     case ADD_ADVANCE_FINISH:
@@ -72,6 +74,7 @@ const advances = (state = { fetchingAdvances: false, error: null, list: [], addi
       return {
         ...state,
         removingAdvance: true,
+        errors: null,
       };
 
     case REMOVE_ADVANCE_SUCCESS:
@@ -83,7 +86,7 @@ const advances = (state = { fetchingAdvances: false, error: null, list: [], addi
     case REMOVE_ADVANCE_FAILURE:
       return {
         ...state,
-        error: action.body,
+        errors: action.body,
       };
 
     case REMOVE_ADVANCE_FINISH:
@@ -96,6 +99,7 @@ const advances = (state = { fetchingAdvances: false, error: null, list: [], addi
       return {
         ...state,
         updatingAdvance: true,
+        errors: null,
       };
 
     case UPDATE_ADVANCE_SUCCESS:
@@ -113,7 +117,7 @@ const advances = (state = { fetchingAdvances: false, error: null, list: [], addi
     case UPDATE_ADVANCE_FAILURE:
       return {
         ...state,
-        error: action.body,
+        errors: action.body,
       };
 
     case UPDATE_ADVANCE_FINISH:

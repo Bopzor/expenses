@@ -12,6 +12,7 @@ const total = (state = { fetchingTotal: false, error: null, total: {} }, action)
       return {
         ...state,
         fetchingTotal: true,
+        error: null,
       };
 
     case GET_TOTAL_SUCCESS:
