@@ -5,7 +5,7 @@
       addingExpense: boolean,
       updatingExpense: boolean,
       removingExpense: boolean,
-      error: null | Error,
+      errors: null | Error,
       list: Expenses[],
     },
     advances: {
@@ -13,12 +13,12 @@
       addingAdvance: boolean,
       updatingAdvance: boolean,
       removingAdvance: boolean,
-      error: null | Error,
+      errors: null | Error,
       list: Advances[],
     },
     total: {
       fetchingTotal: boolean,
-      error: null | Error,
+      errors: null | Error,
       total: {
         Nils: {
           expenses: INT,
