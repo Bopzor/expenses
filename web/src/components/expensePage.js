@@ -6,7 +6,7 @@ import Header from './header';
 
 class ExpensePage extends Component {
   state = {
-    expense: this.props.expenses.filter(e => e.id == this.props.id)[0],
+    expense: this.props.expenses.filter(e => e.id === parseInt(this.props.id))[0],
   }
 
   render() {

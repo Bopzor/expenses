@@ -6,7 +6,7 @@ import Header from './header';
 
 class AdvancePage extends Component {
   state = {
-    advance: this.props.advances.filter(a => a.id == this.props.id)[0],
+    advance: this.props.advances.filter(a => a.id === parseInt(this.props.id))[0],
   }
 
   render() {
