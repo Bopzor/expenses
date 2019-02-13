@@ -27,7 +27,7 @@ const getTotal = async (req, res, next) => {
         },
         buyer: 'Nils',
       },
-      attributes: [[sequelize.fn('SUM', sequelize.col('cost')), 'expenses']]
+      attributes: [[sequelize.fn('SUM', sequelize.col('cost')), 'expenses']],
     });
 
     const totalExpensesVio = await Expense.findAll({
@@ -37,7 +37,7 @@ const getTotal = async (req, res, next) => {
         },
         buyer: 'Vio',
       },
-      attributes: [[sequelize.fn('SUM', sequelize.col('cost')), 'expenses']]
+      attributes: [[sequelize.fn('SUM', sequelize.col('cost')), 'expenses']],
     });
 
     const totalAdvancesNils = await Advance.findAll({
@@ -47,7 +47,7 @@ const getTotal = async (req, res, next) => {
         },
         buyer: 'Nils',
       },
-      attributes: [[sequelize.fn('SUM', sequelize.col('cost')), 'advances']]
+      attributes: [[sequelize.fn('SUM', sequelize.col('cost')), 'advances']],
     });
 
     const totalAdvancesVio = await Advance.findAll({
@@ -57,7 +57,7 @@ const getTotal = async (req, res, next) => {
         },
         buyer: 'Vio',
       },
-      attributes: [[sequelize.fn('SUM', sequelize.col('cost')), 'advances']]
+      attributes: [[sequelize.fn('SUM', sequelize.col('cost')), 'advances']],
     });
 
     const total = {
