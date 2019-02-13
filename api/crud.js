@@ -83,7 +83,7 @@ const update = async (req, res, next) => {
 
 const remove = async (req, res, next) => {
   try {
-    await req.model.destroy();
+    await req.instance.destroy();
 
     return res.status(204).end();
 
