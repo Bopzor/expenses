@@ -9,23 +9,21 @@ const getById = async (req, res, next) => {
 
     if (!instance) {
       res.status(404).end('Instance not found');
-
     } else {
       req.instance = instance;
       next();
     }
-
   } catch (e) {
-    next(e)
+    next(e);
   }
-}
+};
 
 const getMonth = async (req, res, next) => {
   try {
     let d = new Date();
 
     if (req.query.year && req.query.month) {
-      d = new Date(req.query.year, req.query.month)
+      d = new Date(req.query.year, req.query.month);
     }
 
     const startOfMonth = new Date(d.getFullYear(), d.getMonth(), 2);
@@ -40,8 +38,7 @@ const getMonth = async (req, res, next) => {
       order: ['date'],
     });
 
-    return res.status(200).json(instances);
-
+    return res.json(instances);
   } catch (e) {
     next(e);
   }
@@ -52,13 +49,12 @@ const create = async (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
+      return res.status(400).json({ errors: errors.array() });
     }
 
     const instance = await req.model.create(req.body);
 
     return res.status(201).json(instance);
-
   } catch (e) {
     next(e);
   }
@@ -69,15 +65,14 @@ const update = async (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
+      return res.status(400).json({ errors: errors.array() });
     }
 
     const instance = await req.instance.update(req.body);
 
-    return res.status(200).json(instance);
-
+    return res.json(instance);
   } catch (e) {
-    next(e)
+    next(e);
   }
 };
 
@@ -86,7 +81,6 @@ const remove = async (req, res, next) => {
     await req.instance.destroy();
 
     return res.status(204).end();
-
   } catch (e) {
     next(e);
   }
@@ -97,5 +91,5 @@ module.exports = {
   getMonth,
   create,
   update,
-  remove
-}
+  remove,
+};
