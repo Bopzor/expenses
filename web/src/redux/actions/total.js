@@ -1,6 +1,6 @@
 import { myFetch } from '../../utilities';
 
-const BASE_URL = 'http://192.168.0.17:4242/total';
+const BASE_URL = `${process.env.REACT_APP_API_URL}/total`;
 
 // GET TOTAL:
 export const GET_TOTAL_REQUEST = 'GET_TOTAL_REQUEST';
@@ -12,11 +12,11 @@ const getTotal = {
   REQUEST: () => ({
     type: GET_TOTAL_REQUEST,
   }),
-  SUCCESS: total => ({
+  SUCCESS: (total) => ({
     type: GET_TOTAL_SUCCESS,
     body: total,
   }),
-  FAILURE: error => ({
+  FAILURE: (error) => ({
     type: GET_TOTAL_FAILURE,
     body: error,
   }),
@@ -25,20 +25,19 @@ const getTotal = {
   }),
 };
 
-export const fetchTotal = (dateFilter = undefined) => dispatch => {
+export const fetchTotal = (dateFilter = undefined) => (dispatch) => {
   let url = BASE_URL;
 
   if (dateFilter) {
     url += `?year=${dateFilter.getFullYear()}&month=${dateFilter.getMonth()}`;
   }
 
-
   dispatch(getTotal.REQUEST());
 
   return myFetch(url)
     .then(
-      total => dispatch(getTotal.SUCCESS(total)),
-      error => dispatch(getTotal.FAILURE(error)),
+      (total) => dispatch(getTotal.SUCCESS(total)),
+      (error) => dispatch(getTotal.FAILURE(error))
     )
     .then(() => dispatch(getTotal.FINISH()));
 };

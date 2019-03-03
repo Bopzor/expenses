@@ -1,7 +1,7 @@
 import { myFetch } from '../../utilities';
 import { fetchTotal } from './total';
 
-const BASE_URL = 'http://192.168.0.17:4242/expenses';
+const BASE_URL = `${process.env.REACT_APP_API_URL}/expenses`;
 
 // GET EXPENSES:
 export const GET_EXPENSES_REQUEST = 'GET_EXPENSES_REQUEST';
@@ -13,11 +13,11 @@ const getExpenses = {
   REQUEST: () => ({
     type: GET_EXPENSES_REQUEST,
   }),
-  SUCCESS: expenses => ({
+  SUCCESS: (expenses) => ({
     type: GET_EXPENSES_SUCCESS,
     body: expenses,
   }),
-  FAILURE: error => ({
+  FAILURE: (error) => ({
     type: GET_EXPENSES_FAILURE,
     body: error,
   }),
@@ -26,7 +26,7 @@ const getExpenses = {
   }),
 };
 
-export const fetchExpenses = (dateFilter = undefined) => dispatch => {
+export const fetchExpenses = (dateFilter = undefined) => (dispatch) => {
   let url = BASE_URL;
 
   if (dateFilter) {
@@ -37,8 +37,8 @@ export const fetchExpenses = (dateFilter = undefined) => dispatch => {
 
   return myFetch(url)
     .then(
-      expenses => dispatch(getExpenses.SUCCESS(expenses)),
-      error => dispatch(getExpenses.FAILURE(error)),
+      (expenses) => dispatch(getExpenses.SUCCESS(expenses)),
+      (error) => dispatch(getExpenses.FAILURE(error))
     )
     .then(() => dispatch(getExpenses.FINISH()));
 };
@@ -53,11 +53,11 @@ const addExpense = {
   REQUEST: () => ({
     type: ADD_EXPENSE_REQUEST,
   }),
-  SUCCESS: expense => ({
+  SUCCESS: (expense) => ({
     type: ADD_EXPENSE_SUCCESS,
     body: expense,
   }),
-  FAILURE: error => ({
+  FAILURE: (error) => ({
     type: ADD_EXPENSE_FAILURE,
     body: error.body,
   }),
@@ -66,7 +66,7 @@ const addExpense = {
   }),
 };
 
-export const createExpense = expense => dispatch => {
+export const createExpense = (expense) => (dispatch) => {
   const url = BASE_URL;
   const opts = {
     method: 'POST',
@@ -80,8 +80,8 @@ export const createExpense = expense => dispatch => {
 
   return myFetch(url, opts)
     .then(
-      expense => dispatch(addExpense.SUCCESS(expense)),
-      error => dispatch(addExpense.FAILURE(error)),
+      (expense) => dispatch(addExpense.SUCCESS(expense)),
+      (error) => dispatch(addExpense.FAILURE(error))
     )
     .then(() => dispatch(addExpense.FINISH()))
     .then(() => dispatch(fetchTotal()));
@@ -97,11 +97,11 @@ const removeExpense = {
   REQUEST: () => ({
     type: REMOVE_EXPENSE_REQUEST,
   }),
-  SUCCESS: id => ({
+  SUCCESS: (id) => ({
     type: REMOVE_EXPENSE_SUCCESS,
     body: id,
   }),
-  FAILURE: error => ({
+  FAILURE: (error) => ({
     type: REMOVE_EXPENSE_FAILURE,
     body: error.body,
   }),
@@ -110,7 +110,7 @@ const removeExpense = {
   }),
 };
 
-export const deleteExpense = id => dispatch => {
+export const deleteExpense = (id) => (dispatch) => {
   const url = BASE_URL + '/' + id;
   const opts = {
     method: 'DELETE',
@@ -124,12 +124,11 @@ export const deleteExpense = id => dispatch => {
   return myFetch(url, opts)
     .then(
       () => dispatch(removeExpense.SUCCESS(id)),
-      error => dispatch(removeExpense.FAILURE(error)),
+      (error) => dispatch(removeExpense.FAILURE(error))
     )
     .then(() => dispatch(removeExpense.FINISH()))
     .then(() => dispatch(fetchTotal()));
 };
-
 
 // UPDATE EXPENSE:
 export const UPDATE_EXPENSE_REQUEST = 'UPDATE_EXPENSE_REQUEST';
@@ -141,11 +140,11 @@ const updateExpense = {
   REQUEST: () => ({
     type: UPDATE_EXPENSE_REQUEST,
   }),
-  SUCCESS: expense => ({
+  SUCCESS: (expense) => ({
     type: UPDATE_EXPENSE_SUCCESS,
     body: expense,
   }),
-  FAILURE: error => ({
+  FAILURE: (error) => ({
     type: UPDATE_EXPENSE_FAILURE,
     body: error.body,
   }),
@@ -154,7 +153,7 @@ const updateExpense = {
   }),
 };
 
-export const editExpense = expense => dispatch => {
+export const editExpense = (expense) => (dispatch) => {
   const url = BASE_URL + '/' + expense.id;
   const opts = {
     method: 'PUT',
@@ -168,8 +167,8 @@ export const editExpense = expense => dispatch => {
 
   return myFetch(url, opts)
     .then(
-      expense => dispatch(updateExpense.SUCCESS(expense)),
-      error => dispatch(updateExpense.FAILURE(error)),
+      (expense) => dispatch(updateExpense.SUCCESS(expense)),
+      (error) => dispatch(updateExpense.FAILURE(error))
     )
     .then(() => dispatch(updateExpense.FINISH()))
     .then(() => dispatch(fetchTotal()));

@@ -1,7 +1,7 @@
 import { myFetch } from '../../utilities';
 import { fetchTotal } from './total';
 
-const BASE_URL = 'http://192.168.0.17:4242/advances';
+const BASE_URL = `${process.env.REACT_APP_API_URL}/advances`;
 
 // GET ADVANCES:
 export const GET_ADVANCES_REQUEST = 'GET_ADVANCES_REQUEST';
@@ -13,11 +13,11 @@ const getAdvances = {
   REQUEST: () => ({
     type: GET_ADVANCES_REQUEST,
   }),
-  SUCCESS: advances => ({
+  SUCCESS: (advances) => ({
     type: GET_ADVANCES_SUCCESS,
     body: advances,
   }),
-  FAILURE: error => ({
+  FAILURE: (error) => ({
     type: GET_ADVANCES_FAILURE,
     body: error.body,
   }),
@@ -26,7 +26,7 @@ const getAdvances = {
   }),
 };
 
-export const fetchAdvances = (dateFilter = undefined) => dispatch => {
+export const fetchAdvances = (dateFilter = undefined) => (dispatch) => {
   let url = BASE_URL;
 
   if (dateFilter) {
@@ -37,8 +37,8 @@ export const fetchAdvances = (dateFilter = undefined) => dispatch => {
 
   return myFetch(url)
     .then(
-      advances => dispatch(getAdvances.SUCCESS(advances)),
-      error => dispatch(getAdvances.FAILURE(error)),
+      (advances) => dispatch(getAdvances.SUCCESS(advances)),
+      (error) => dispatch(getAdvances.FAILURE(error))
     )
     .then(() => dispatch(getAdvances.FINISH()));
 };
@@ -53,11 +53,11 @@ const addAdvance = {
   REQUEST: () => ({
     type: ADD_ADVANCE_REQUEST,
   }),
-  SUCCESS: advance => ({
+  SUCCESS: (advance) => ({
     type: ADD_ADVANCE_SUCCESS,
     body: advance,
   }),
-  FAILURE: error => ({
+  FAILURE: (error) => ({
     type: ADD_ADVANCE_FAILURE,
     body: error.body,
   }),
@@ -66,7 +66,7 @@ const addAdvance = {
   }),
 };
 
-export const createAdvance = advance => dispatch => {
+export const createAdvance = (advance) => (dispatch) => {
   const url = BASE_URL;
   const opts = {
     method: 'POST',
@@ -80,8 +80,8 @@ export const createAdvance = advance => dispatch => {
 
   return myFetch(url, opts)
     .then(
-      advance => dispatch(addAdvance.SUCCESS(advance)),
-      error => dispatch(addAdvance.FAILURE(error)),
+      (advance) => dispatch(addAdvance.SUCCESS(advance)),
+      (error) => dispatch(addAdvance.FAILURE(error))
     )
     .then(() => dispatch(addAdvance.FINISH()))
     .then(() => dispatch(fetchTotal()));
@@ -97,11 +97,11 @@ const removeAdvance = {
   REQUEST: () => ({
     type: REMOVE_ADVANCE_REQUEST,
   }),
-  SUCCESS: id => ({
+  SUCCESS: (id) => ({
     type: REMOVE_ADVANCE_SUCCESS,
     body: id,
   }),
-  FAILURE: error => ({
+  FAILURE: (error) => ({
     type: REMOVE_ADVANCE_FAILURE,
     body: error.body,
   }),
@@ -110,7 +110,7 @@ const removeAdvance = {
   }),
 };
 
-export const deleteAdvance = id => dispatch => {
+export const deleteAdvance = (id) => (dispatch) => {
   const url = BASE_URL + '/' + id;
   const opts = {
     method: 'DELETE',
@@ -124,12 +124,11 @@ export const deleteAdvance = id => dispatch => {
   return myFetch(url, opts)
     .then(
       () => dispatch(removeAdvance.SUCCESS(id)),
-      error => dispatch(removeAdvance.FAILURE(error)),
+      (error) => dispatch(removeAdvance.FAILURE(error))
     )
     .then(() => dispatch(removeAdvance.FINISH()))
     .then(() => dispatch(fetchTotal()));
 };
-
 
 // UPDATE ADVANCE:
 export const UPDATE_ADVANCE_REQUEST = 'UPDATE_ADVANCE_REQUEST';
@@ -141,11 +140,11 @@ const updateAdvance = {
   REQUEST: () => ({
     type: UPDATE_ADVANCE_REQUEST,
   }),
-  SUCCESS: advance => ({
+  SUCCESS: (advance) => ({
     type: UPDATE_ADVANCE_SUCCESS,
     body: advance,
   }),
-  FAILURE: error => ({
+  FAILURE: (error) => ({
     type: UPDATE_ADVANCE_FAILURE,
     body: error.body,
   }),
@@ -154,7 +153,7 @@ const updateAdvance = {
   }),
 };
 
-export const editAdvance = advance => dispatch => {
+export const editAdvance = (advance) => (dispatch) => {
   const url = BASE_URL + '/' + advance.id;
   const opts = {
     method: 'PUT',
@@ -168,8 +167,8 @@ export const editAdvance = advance => dispatch => {
 
   return myFetch(url, opts)
     .then(
-      advance => dispatch(updateAdvance.SUCCESS(advance)),
-      error => dispatch(updateAdvance.FAILURE(error)),
+      (advance) => dispatch(updateAdvance.SUCCESS(advance)),
+      (error) => dispatch(updateAdvance.FAILURE(error))
     )
     .then(() => dispatch(updateAdvance.FINISH()))
     .then(() => dispatch(fetchTotal()));
