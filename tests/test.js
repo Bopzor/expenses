@@ -24,7 +24,12 @@ describe('Expense model', () => {
   });
 
   it('should add expense', () => {
-    const expense = { date: '2019-02-12', description: 'courses', cost: 23, buyer: 'Vio' };
+    const expense = {
+      date: '2019-02-12',
+      description: 'courses',
+      cost: 23,
+      buyer: 'Vio',
+    };
 
     return request(app)
       .post('/expenses')
@@ -98,6 +103,26 @@ describe('Expense model', () => {
         assert.equal(updatedInstance.date, expense.date);
         assert.equal(updatedInstance.cost, expense.cost);
         assert.equal(updatedInstance.buyer, expense.buyer);
+      });
+  });
+
+  it('should delete expense', async () => {
+    const instance = await Expense.create({
+      date: '2019-02-12',
+      description: 'courses',
+      cost: 23,
+      buyer: 'Vio',
+    });
+
+    return request(app)
+      .delete(`/expenses/${instance.id}`)
+      .expect(204)
+      .then(async (res) => {
+        assert.isEmpty(res.body);
+
+        const expense = await Expense.findByPk(instance.id);
+
+        assert.isNull(expense);
       });
   });
 });
