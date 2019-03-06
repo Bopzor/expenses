@@ -125,4 +125,54 @@ describe('Expense model', () => {
         assert.isNull(expense);
       });
   });
+
+  it('should return 02/2019 expenses', async () => {
+    const one = await Expense.create({
+      date: '2019-02-01',
+      description: 'courses',
+      cost: 23,
+      buyer: 'Vio',
+    });
+    const two = await Expense.create({
+      date: '2019-02-02',
+      description: 'bk',
+      cost: 15,
+      buyer: 'Nils',
+    });
+    const three = await Expense.create({
+      date: '2019-02-03',
+      description: 'courses',
+      cost: 59,
+      buyer: 'Vio',
+    });
+    const jan = await Expense.create({
+      date: '2019-01-04',
+      description: 'courses',
+      cost: 43,
+      buyer: 'Nils',
+    });
+
+    return request(app)
+      .get('/expenses/?year=2019&month=1')
+      .expect(200)
+      .then(async (res) => {
+        assert.isArray(res.body);
+        assert.equal(res.body.length, 3);
+
+        assert.equal(res.body[0].description, one.description);
+        assert.equal(res.body[0].date, one.date);
+        assert.equal(res.body[0].cost, one.cost);
+        assert.equal(res.body[0].buyer, one.buyer);
+
+        assert.equal(res.body[1].description, two.description);
+        assert.equal(res.body[1].date, two.date);
+        assert.equal(res.body[1].cost, two.cost);
+        assert.equal(res.body[1].buyer, two.buyer);
+
+        assert.equal(res.body[2].description, three.description);
+        assert.equal(res.body[2].date, three.date);
+        assert.equal(res.body[2].cost, three.cost);
+        assert.equal(res.body[2].buyer, three.buyer);
+      });
+  });
 });
