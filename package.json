@@ -7,14 +7,16 @@
   "license": "MIT",
   "scripts": {
     "start": "node lib/index.js",
+    "start:test": "NODE_ENV=test mocha ./lib/test.js",
     "build": "babel api -d lib",
-    "build-test": "babel tests -d lib"
+    "build:test": "babel tests -d lib"
   },
   "dependencies": {
     "@babel/helper-module-imports": "^7.0.0",
     "@babel/polyfill": "^7.2.5",
     "@babel/runtime": "^7.2.0",
     "cors": "^2.8.5",
+    "csv": "^5.1.1",
     "express": "^4.16.4",
     "express-validator": "^5.3.1",
     "parse-csv": "^0.2.0",
