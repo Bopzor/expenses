@@ -2,6 +2,8 @@ import React, { Component} from 'react';
 import { Input, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
+import PropTypes from 'prop-types';
+
 import { formatDate } from '../utilities';
 
 import './header.css'
@@ -102,6 +104,15 @@ class Header extends Component {
         </nav>
     );
   }
+};
+
+Header.propTypes = {
+  date: PropTypes.instanceOf(Date),
+  changeDate: PropTypes.func.isRequired,
+  navPaths: PropTypes.arrayOf(PropTypes.shape({
+    path: PropTypes.string.isRequired,
+    pathname: PropTypes.string.isRequired,
+  })),
 };
 
 export default Header;

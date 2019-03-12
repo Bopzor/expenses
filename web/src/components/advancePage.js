@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import PropTypes from 'prop-types';
+
 import AdvanceInput from './containers/advanceInput';
 import Header from './header';
 
@@ -26,5 +28,11 @@ class AdvancePage extends Component {
 const mapStateToProps = state => ({
   advances: state.advances.list,
 });
+
+AdvancePage.propTypes = {
+  date: PropTypes.instanceOf(Date),
+  changeDate: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+};
 
 export default connect(mapStateToProps)(AdvancePage);

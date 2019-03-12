@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import PropTypes from 'prop-types';
+
 import { Table } from 'reactstrap';
 
 import { calTotal } from '../../utilities';
@@ -97,5 +99,23 @@ class TotalComponent extends Component {
     );
   }
 }
+
+TotalComponent.propTypes = {
+  className: PropTypes.string,
+  dateFilter: PropTypes.instanceOf(Date),
+  error: PropTypes.oneOfType([PropTypes.instanceOf(Error), PropTypes.oneOf([null])]),
+  fetchTotal: PropTypes.func.isRequired,
+  fetching: PropTypes.bool.isRequired,
+  total: PropTypes.shape({
+    nils: PropTypes.shape({
+      advances: PropTypes.number.isRequired,
+      expenses: PropTypes.number.isRequired,
+    }),
+    vio: PropTypes.shape({
+      advances: PropTypes.number.isRequired,
+      expenses: PropTypes.number.isRequired,
+    }),
+  }),
+};
 
 export default TotalComponent;

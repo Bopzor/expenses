@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Redirect } from 'react-router-dom';
 
+import PropTypes from 'prop-types';
+
 import { formatDateForInput } from '../../utilities';
 
 import './payementItemInput.css';
@@ -293,5 +295,14 @@ class PayementItemInput extends React.Component {
     );
   }
 };
+
+PayementItemInput.propTypes = {
+  date: PropTypes.instanceOf(Date),
+  errors: PropTypes.oneOfType([PropTypes.instanceOf(Error), PropTypes.oneOf([null])]),
+  isSubmitting: PropTypes.bool.isRequired,
+  payementType: PropTypes.oneOf(['expense', 'advance']).isRequired,
+  editPayementItem: PropTypes.func.isRequired,
+  createPayementItem: PropTypes.func.isRequired,
+}
 
 export default PayementItemInput;

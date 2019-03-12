@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Route, Switch } from "react-router-dom";
 
+import PropTypes from 'prop-types';
+
 import ExpenseInput from './containers/expenseInput';
 import AdvanceInput from './containers/advanceInput';
 import Header from './header';
@@ -35,5 +37,11 @@ const InputPage = (props) => {
     </div>
   );
 };
+
+InputPage.propTypes = {
+  date: PropTypes.instanceOf(Date),
+  changeDate: PropTypes.func.isRequired,
+};
+
 
 export default InputPage;

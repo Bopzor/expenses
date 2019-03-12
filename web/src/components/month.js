@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { Route, Switch } from "react-router-dom";
 
+import PropTypes from 'prop-types';
+
 import { Table } from 'reactstrap';
 
 import ExpensesList from './containers/expensesList';
@@ -52,6 +54,11 @@ class Month extends Component {
       </div>
     );
   }
+}
+
+Month.propTypes = {
+  date: PropTypes.instanceOf(Date),
+  changeDate: PropTypes.func.isRequired,
 }
 
 export default Month;
