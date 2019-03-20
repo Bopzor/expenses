@@ -68,10 +68,10 @@ const getTotal = async (req, res, next) => {
       vio: [
         totalExpensesVio[0],
         totalAdvancesVio[0],
-      ]
-    }
+      ],
+    };
 
-    return res.status(200).json(total);
+    return res.json(total);
 
   } catch (e) {
     next(e);
