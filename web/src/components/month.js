@@ -24,7 +24,7 @@ class Month extends Component {
         pathname: "Advances",
         path: "/month/advances"
       },
-    ]
+    ];
 
     return (
       <div>
