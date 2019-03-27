@@ -20,6 +20,15 @@ const getTotal = async (req, res, next) => {
     const startOfMonth = new Date(d.getFullYear(), d.getMonth(), 1);
     const endOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 1);
 
+    const totalExpensesCommon =await Expense.findAll({
+      where: {
+        date: {
+          [Op.between]: [startOfMonth, endOfMonth],
+        },
+      },
+      attributes: [[sequelize.fn('SUM', sequelize.col('cost')), 'expenses']],
+    });
+
     const totalExpensesNils = await Expense.findAll({
       where: {
         date: {
@@ -60,18 +69,35 @@ const getTotal = async (req, res, next) => {
       attributes: [[sequelize.fn('SUM', sequelize.col('cost')), 'advances']],
     });
 
-    const total = {
-      nils: [
-        totalExpensesNils[0],
-        totalAdvancesNils[0],
-      ],
-      vio: [
-        totalExpensesVio[0],
-        totalAdvancesVio[0],
-      ],
+    const calculateTotal = (sum, expenses, advancesSelf, advancesOther) => {
+      return expenses - sum/2 + advancesSelf - advancesOther;
+    }
+
+    const totalFromMonth = {
+      totalCommon: totalExpensesCommon[0].get('expenses'),
+      nils: {
+        expenses: totalExpensesNils[0].get('expenses'),
+        advances: totalAdvancesNils[0].get('advances'),
+        total: calculateTotal(
+          totalExpensesCommon[0].get('expenses'),
+          totalExpensesNils[0].get('expenses'),
+          totalAdvancesNils[0].get('advances'),
+          totalAdvancesVio[0].get('advances')
+        ),
+      },
+      vio: {
+        expenses: totalExpensesVio[0].get('expenses'),
+        advances: totalAdvancesVio[0].get('advances'),
+        total: calculateTotal(
+          totalExpensesCommon[0].get('expenses'),
+          totalExpensesVio[0].get('expenses'),
+          totalAdvancesVio[0].get('advances'),
+          totalAdvancesNils[0].get('advances'),
+        ),
+      },
     };
 
-    return res.json(total);
+    return res.json(totalFromMonth);
 
   } catch (e) {
     next(e);
