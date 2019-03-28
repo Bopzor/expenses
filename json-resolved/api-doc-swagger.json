@@ -29,7 +29,7 @@
         }, {
           "name" : "month",
           "in" : "query",
-          "description" : "pass an optional int for specifiyingthe month (mm)",
+          "description" : "pass an optional int for specifiyingthe month (m)",
           "required" : false,
           "type" : "integer",
           "minimum" : 0
@@ -135,7 +135,7 @@
         }, {
           "name" : "month",
           "in" : "query",
-          "description" : "pass an optional int for specifiyingthe month (mm)",
+          "description" : "pass an optional int for specifiyingthe month (m)",
           "required" : false,
           "type" : "integer",
           "minimum" : 0
@@ -166,7 +166,7 @@
         }, {
           "name" : "month",
           "in" : "query",
-          "description" : "pass an optional int for specifiyingthe month (mm)",
+          "description" : "pass an optional int for specifiyingthe month (m)",
           "required" : false,
           "type" : "integer",
           "minimum" : 0
