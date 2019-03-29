@@ -70,7 +70,7 @@ class PayementsList extends React.Component {
 }
 
 PayementsList.propTypes = {
-  dateFilter: PropTypes.instanceOf(Date),
+  dateFilter: PropTypes.string,
   deletePayementItem: PropTypes.func.isRequired,
   fetchPayementItems: PropTypes.func.isRequired,
   fetching: PropTypes.bool.isRequired,

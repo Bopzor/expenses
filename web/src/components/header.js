@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Input, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
-
 import PropTypes from 'prop-types';
-
-import { formatDate } from '../utilities';
+import moment from 'moment';
 
 import './header.css';
+import { MonthAndYearPicker } from './monthAndYearPicker';
 
 class Header extends Component {
   state = {
@@ -19,11 +18,11 @@ class Header extends Component {
   }
 
   formatNavLink(date) {
-    return <NavLink to="/month">{formatDate(date)}</NavLink>;
+    return <NavLink to="/month">{moment(date, 'MM-YYYY').format('MM-YYYY')}</NavLink>;
   }
 
-  dateChange(e) {
-    this.setState({ date: e.target.value });
+  dateChange(month, year) {
+    this.setState({date: moment(`${month}-${year}`, 'MM-YYYY')})
   }
 
   render() {
@@ -37,11 +36,9 @@ class Header extends Component {
             <Modal isOpen={this.state.modal} toggle={() => this.toggle()}>
               <ModalHeader toggle={() => this.toggle()}>Change date</ModalHeader>
               <ModalBody>
-                <Input
-                  type="date"
-                  value={this.state.date}
-                  placeholder={this.state.date}
-                  onChange={(e) => this.dateChange(e)}
+                <MonthAndYearPicker
+                  date={this.props.date}
+                  onChangeDate={(month, year) => this.dateChange(month, year)}
                 />
               </ModalBody>
               <ModalFooter>
@@ -79,11 +76,9 @@ class Header extends Component {
           <Modal isOpen={this.state.modal} toggle={() => this.toggle()}>
             <ModalHeader toggle={() => this.toggle()}>Change date</ModalHeader>
             <ModalBody>
-              <Input
-                type="date"
-                value={this.state.date}
-                placeholder={this.state.date}
-                onChange={(e) => this.dateChange(e)}
+              <MonthAndYearPicker
+                date={this.props.date}
+                onChangeDate={(month, year) => this.dateChange(month, year)}
               />
             </ModalBody>
             <ModalFooter>
@@ -108,7 +103,7 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  date: PropTypes.instanceOf(Date),
+  date: PropTypes.string,
   changeDate: PropTypes.func.isRequired,
   navPaths: PropTypes.arrayOf(
     PropTypes.shape({

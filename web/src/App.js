@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
 import { Route, Switch } from "react-router-dom";
+import moment from 'moment';
 
 import Month from './components/month';
 import Total from './components/containers/total';
@@ -10,11 +10,11 @@ import AdvancePage from './components/advancePage';
 
 class App extends Component {
   state = {
-    dateFilter: new Date(),
+    dateFilter: moment().format('MM-YYYY'),
   }
 
   changeDateFilter(date) {
-    this.setState({ dateFilter: new Date(date) });
+    this.setState({ dateFilter: moment(date).format('MM-YYYY') });
   }
 
   render() {

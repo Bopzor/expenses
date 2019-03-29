@@ -83,7 +83,7 @@ class TotalComponent extends Component {
 
 TotalComponent.propTypes = {
   className: PropTypes.string,
-  dateFilter: PropTypes.instanceOf(Date),
+  dateFilter: PropTypes.string,
   error: PropTypes.oneOfType([PropTypes.instanceOf(Error), PropTypes.oneOf([null])]),
   fetchTotal: PropTypes.func.isRequired,
   fetching: PropTypes.bool.isRequired,

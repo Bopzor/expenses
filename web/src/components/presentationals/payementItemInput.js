@@ -1,10 +1,7 @@
 import React from 'react';
-
 import { Redirect } from 'react-router-dom';
-
 import PropTypes from 'prop-types';
-
-import { formatDateForInput } from '../../utilities';
+import moment from 'moment';
 
 import './payementItemInput.css';
 
@@ -24,7 +21,7 @@ class PayementItemInput extends React.Component {
     super(props);
 
     this.state = {
-      date: props.date ? formatDateForInput(new Date()) : '',
+      date: props.date ? moment().format('DD-MM-YYYY') : '',
       description: '',
       cost: '',
       buyer: '',
@@ -129,7 +126,7 @@ class PayementItemInput extends React.Component {
 
   resetPayementInput() {
     this.setState({
-      date: this.props.date ? formatDateForInput(new Date()) : '',
+      date: this.props.date ? moment().format('DD-MM-YYYY') : '',
       description: '',
       cost: '',
       buyer: '',
@@ -297,7 +294,7 @@ class PayementItemInput extends React.Component {
 };
 
 PayementItemInput.propTypes = {
-  date: PropTypes.instanceOf(Date),
+  date: PropTypes.string,
   errors: PropTypes.oneOfType([PropTypes.instanceOf(Error), PropTypes.oneOf([null])]),
   isSubmitting: PropTypes.bool.isRequired,
   payementType: PropTypes.oneOf(['expense', 'advance']).isRequired,

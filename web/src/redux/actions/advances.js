@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import { myFetch } from '../../utilities';
 import { fetchTotal } from './total';
 
@@ -30,7 +32,7 @@ export const fetchAdvances = (dateFilter = undefined) => (dispatch) => {
   let url = BASE_URL;
 
   if (dateFilter) {
-    url += `?year=${dateFilter.getFullYear()}&month=${dateFilter.getMonth()}`;
+    url += `?year=${moment(dateFilter, 'MM-YYYY').format('YYYY')}&month=${moment(dateFilter, 'MM-YYYY').format('M')}`;
   }
 
   dispatch(getAdvances.REQUEST());
