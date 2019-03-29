@@ -43,7 +43,7 @@ class TotalComponent extends Component {
       );
     }
 
-    if (!totalCommon)
+    if (totalCommon === undefined)
       return null;
 
     return (
