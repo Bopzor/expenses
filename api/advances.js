@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { sequelize } from '../models';
+import { sequelize } from '../../models';
 
 import validate from './validate';
 import { getById, getMonth, create, update, remove } from './crud';

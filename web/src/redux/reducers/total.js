@@ -19,13 +19,16 @@ const total = (state = { fetchingTotal: false, error: null, total: {} }, action)
       return {
         ...state,
         total: {
+          totalCommon: action.body.totalCommon === null ? 0 : parseInt(action.body.totalCommon),
           nils: {
-            expenses: action.body.nils[0].expenses === null ? 0 : parseInt(action.body.nils[0].expenses),
-            advances: action.body.nils[1].advances === null ? 0 : parseInt(action.body.nils[1].advances),
+            expenses: action.body.nils.expenses === null ? 0 : parseInt(action.body.nils.expenses),
+            advances: action.body.nils.advances === null ? 0 : parseInt(action.body.nils.advances),
+            total: action.body.nils.total,
           },
           vio: {
-            expenses: action.body.vio[0].expenses === null ? 0 : parseInt(action.body.vio[0].expenses),
-            advances: action.body.vio[1].advances === null ? 0 : parseInt(action.body.vio[1].advances),
+            expenses: action.body.vio.expenses === null ? 0 : parseInt(action.body.vio.expenses),
+            advances: action.body.vio.advances === null ? 0 : parseInt(action.body.vio.advances),
+            total: action.body.vio.total,
           },
         }
       };

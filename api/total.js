@@ -1,7 +1,7 @@
 import express from 'express';
 
 import Sequelize from 'sequelize';
-import { sequelize } from '../models';
+import { sequelize } from '../../models';
 
 const router = express.Router();
 
@@ -69,32 +69,39 @@ const getTotal = async (req, res, next) => {
       attributes: [[sequelize.fn('SUM', sequelize.col('cost')), 'advances']],
     });
 
-    const calculateTotal = (sum, expenses, advancesSelf, advancesOther) => {
+    const calculateTotal = (sum = 0, expenses = 0, advancesSelf = 0, advancesOther = 0) => {
       return expenses - sum/2 + advancesSelf - advancesOther;
     }
 
+    const parseStringNumberNullToFloat = (total) => {
+      if (total === null)
+        return 0;
+
+      return parseFloat(total);
+    };
+
     const totalFromMonth = {
-      totalCommon: totalExpensesCommon[0].get('expenses'),
+      totalCommon: parseStringNumberNullToFloat(totalExpensesCommon[0].get('expenses')),
       nils: {
-        expenses: totalExpensesNils[0].get('expenses'),
-        advances: totalAdvancesNils[0].get('advances'),
+        expenses: parseStringNumberNullToFloat(totalExpensesNils[0].get('expenses')),
+        advances: parseStringNumberNullToFloat(totalAdvancesNils[0].get('advances')),
         total: calculateTotal(
-          totalExpensesCommon[0].get('expenses'),
-          totalExpensesNils[0].get('expenses'),
-          totalAdvancesNils[0].get('advances'),
-          totalAdvancesVio[0].get('advances')
+          parseStringNumberNullToFloat(totalExpensesCommon[0].get('expenses')),
+          parseStringNumberNullToFloat(totalExpensesNils[0].get('expenses')),
+          parseStringNumberNullToFloat(totalAdvancesNils[0].get('advances')),
+          parseStringNumberNullToFloat(totalAdvancesVio[0].get('advances'))
         ),
       },
       vio: {
-        expenses: totalExpensesVio[0].get('expenses'),
-        advances: totalAdvancesVio[0].get('advances'),
+        expenses: parseStringNumberNullToFloat(totalExpensesVio[0].get('expenses')),
+        advances: parseStringNumberNullToFloat(totalAdvancesVio[0].get('advances')),
         total: calculateTotal(
-          totalExpensesCommon[0].get('expenses'),
-          totalExpensesVio[0].get('expenses'),
-          totalAdvancesVio[0].get('advances'),
-          totalAdvancesNils[0].get('advances'),
+          parseStringNumberNullToFloat(totalExpensesCommon[0].get('expenses')),
+          parseStringNumberNullToFloat(totalExpensesVio[0].get('expenses')),
+          parseStringNumberNullToFloat(totalAdvancesVio[0].get('advances')),
+          parseStringNumberNullToFloat(totalAdvancesNils[0].get('advances'))
         ),
-      },
+      }
     };
 
     return res.json(totalFromMonth);

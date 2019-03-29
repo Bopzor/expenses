@@ -22,10 +22,6 @@ export function formatDateForInput(date) {
   return `${year}-${month}-${day}`;
 }
 
-export function calTotal(sum, expenses, advancesSelf, advancesOther) {
-  return expenses - sum/2 + advancesSelf - advancesOther;
-}
-
 class RequestError extends Error {
   constructor(message, body) {
     super(message);

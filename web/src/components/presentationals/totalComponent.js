@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 
 import { Table } from 'reactstrap';
 
-import { calTotal } from '../../utilities';
-
 class TotalComponent extends Component {
   componentDidMount() {
     this.props.fetchTotal(this.props.dateFilter);
@@ -19,10 +17,7 @@ class TotalComponent extends Component {
 
   render() {
     const { error, fetching, total } = this.props;
-    let totalCommon = 0;
-
-    if (total.nils)
-      totalCommon = total.nils.expenses + total.vio.expenses;
+    const { nils, vio, totalCommon } = total;
 
     if (error) {
       return (
@@ -48,7 +43,7 @@ class TotalComponent extends Component {
       );
     }
 
-    if (!total.nils)
+    if (!totalCommon)
       return null;
 
     return (
@@ -64,29 +59,15 @@ class TotalComponent extends Component {
         <tbody>
 
           <tr className="nils">
-            <td>{total.nils.expenses}</td>
-            <td>{total.nils.advances}</td>
-            <td>
-              {calTotal(
-                totalCommon,
-                total.nils.expenses,
-                total.nils.advances,
-                total.vio.advances
-              )}
-            </td>
+            <td>{nils.expenses}</td>
+            <td>{nils.advances}</td>
+            <td>{nils.total}</td>
           </tr>
 
           <tr className="vio">
-            <td>{total.vio.expenses}</td>
-            <td>{total.vio.advances}</td>
-            <td>
-              {calTotal(
-                totalCommon,
-                total.vio.expenses,
-                total.vio.advances,
-                total.nils.advances
-              )}
-            </td>
+            <td>{vio.expenses}</td>
+            <td>{vio.advances}</td>
+            <td>{vio.total}</td>
           </tr>
 
           <tr>
@@ -107,13 +88,16 @@ TotalComponent.propTypes = {
   fetchTotal: PropTypes.func.isRequired,
   fetching: PropTypes.bool.isRequired,
   total: PropTypes.shape({
+    totalCommon: PropTypes.number,
     nils: PropTypes.shape({
       advances: PropTypes.number.isRequired,
       expenses: PropTypes.number.isRequired,
+      total: PropTypes.number.isRequired,
     }),
     vio: PropTypes.shape({
       advances: PropTypes.number.isRequired,
       expenses: PropTypes.number.isRequired,
+      total: PropTypes.number.isRequired,
     }),
   }),
 };

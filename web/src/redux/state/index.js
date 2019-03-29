@@ -6,7 +6,7 @@
       updatingExpense: boolean,
       removingExpense: boolean,
       errors: null | Error,
-      list: Expenses[],
+      list: Expense[],
     },
     advances: {
       fetchingAdvances: boolean,
@@ -14,25 +14,28 @@
       updatingAdvance: boolean,
       removingAdvance: boolean,
       errors: null | Error,
-      list: Advances[],
+      list: Advance[],
     },
     total: {
       fetchingTotal: boolean,
       errors: null | Error,
       total: {
-        Nils: {
+        totalCommon: INT,
+        nils: {
           expenses: INT,
           advances: INT,
+          total: INT,
         },
-        Vio:{
+        vio:{
           expenses: INT,
           advances: INT,
+          total: INT,
         },
       },
     }
   }
 
-  Expenses = {
+  Expense = {
     id: int,
     description: string,
     date: string,
@@ -40,7 +43,7 @@
     buyer: string,
   }
 
-  Expenses = {
+  Advance = {
     id: int,
     description: string,
     date: string,

@@ -6,10 +6,10 @@
   "author": "bopzor",
   "license": "MIT",
   "scripts": {
-    "start": "node lib/index.js",
-    "start:test": "NODE_ENV=test mocha ./lib/test.js",
-    "build": "babel api -d lib",
-    "build:test": "babel tests -d lib"
+    "start": "node lib/api/index.js",
+    "start:test": "NODE_ENV=test mocha ./lib/tests",
+    "build": "babel api -d lib/api",
+    "build:test": "babel tests -d lib/tests"
   },
   "dependencies": {
     "@babel/helper-module-imports": "^7.0.0",
@@ -32,6 +32,7 @@
     "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/preset-env": "^7.2.3",
     "chai": "^4.2.0",
+    "chai-exclude": "^2.0.1",
     "mocha": "^5.2.0",
     "supertest": "^3.4.2"
   }
