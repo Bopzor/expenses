@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import localization from 'moment/locale/fr'
 
 import './monthAndYearPicker.css';
-
-moment.locale('fr');
 
 export const MonthAndYearPicker = (props) => {
   const { date, onChangeDate } = props;
@@ -30,8 +27,25 @@ export const MonthAndYearPicker = (props) => {
   };
 
   return (
-    <div>
-      { moment.months().map(month => renderMonth(month)) }
+    <div className="month-year-picker">
+      <div className="year">
+        <div
+          className={ moment().format('YYYY') - 1 === year ? 'current' : '' }
+          onClick={() => setYear(moment(date, 'MM-YYYY').format('YYYY') - 1)}
+        >
+          { moment().format('YYYY') - 1 }
+        </div>
+        <div
+          className={ moment().format('YYYY') === year ? 'current' : '' }
+          onClick={() => setYear(moment(date, 'MM-YYYY').format('YYYY'))}
+        >
+          { moment().format('YYYY') }
+        </div>
+      </div>
+
+      <div className="month">
+        { moment.months().map(month => renderMonth(month)) }
+      </div>
     </div>
   );
 
