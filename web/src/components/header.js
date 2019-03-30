@@ -10,7 +10,7 @@ import { MonthAndYearPicker } from './monthAndYearPicker';
 class Header extends Component {
   state = {
     modal: false,
-    date: '',
+    date: moment().format('MM-YYYY'),
   };
 
   toggle() {
@@ -38,7 +38,7 @@ class Header extends Component {
               <ModalBody>
                 <MonthAndYearPicker
                   date={this.props.date}
-                  onChangeDate={(month, year) => this.dateChange(month, year)}
+                  changeDate={(month, year) => this.dateChange(month, year)}
                 />
               </ModalBody>
               <ModalFooter>
@@ -78,7 +78,7 @@ class Header extends Component {
             <ModalBody>
               <MonthAndYearPicker
                 date={this.props.date}
-                onChangeDate={(month, year) => this.dateChange(month, year)}
+                changeDate={(month, year) => this.dateChange(month, year)}
               />
             </ModalBody>
             <ModalFooter>

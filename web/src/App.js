@@ -14,7 +14,7 @@ class App extends Component {
   }
 
   changeDateFilter(date) {
-    this.setState({ dateFilter: moment(date).format('MM-YYYY') });
+    this.setState({ dateFilter: moment(date, 'MM-YYYY').format('MM-YYYY') });
   }
 
   render() {

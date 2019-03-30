@@ -21,7 +21,7 @@ class PayementItemInput extends React.Component {
     super(props);
 
     this.state = {
-      date: props.date ? moment().format('DD-MM-YYYY') : '',
+      date: props.date ? moment().format('YYYY-MM-DD') : '',
       description: '',
       cost: '',
       buyer: '',
@@ -126,7 +126,7 @@ class PayementItemInput extends React.Component {
 
   resetPayementInput() {
     this.setState({
-      date: this.props.date ? moment().format('DD-MM-YYYY') : '',
+      date: this.props.date ? moment().format('YYYY-MM-DD') : '',
       description: '',
       cost: '',
       buyer: '',

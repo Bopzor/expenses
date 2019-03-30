@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 
 import './monthAndYearPicker.css';
 
 export const MonthAndYearPicker = (props) => {
-  const { date, onChangeDate } = props;
+  const { date, changeDate } = props;
   const [monthNumber, setMonthNumber] = useState(moment(date, 'MM-YYYY').format('MM'));
   const [year, setYear] = useState(moment(date, 'MM-YYYY').format('YYYY'));
 
-  useEffect(() => {
-    if (moment(`${monthNumber}-${year}`, 'MM-YYYY') !== date)
-      onChangeDate(monthNumber, year);
-  });
+  const onSelectMonth = (selectedMonthNumber) => {
+    setMonthNumber(selectedMonthNumber);
+    changeDate(selectedMonthNumber, year);
+  }
+
+  const onSelectYear = (selectedYear) => {
+    setYear(selectedYear);
+    changeDate(monthNumber, selectedYear);
+  }
 
   const renderMonth = (month) => {
     const selectedMonthNumber = moment().month(month, 'MMMM').format('MM');
@@ -19,7 +24,7 @@ export const MonthAndYearPicker = (props) => {
       <div
         key={selectedMonthNumber}
         className={ selectedMonthNumber === monthNumber ? 'current' : '' }
-        onClick={() => setMonthNumber(selectedMonthNumber)}
+        onClick={() => onSelectMonth(selectedMonthNumber)}
       >
         { month }
       </div>
@@ -30,14 +35,14 @@ export const MonthAndYearPicker = (props) => {
     <div className="month-year-picker">
       <div className="year">
         <div
-          className={ moment().format('YYYY') - 1 === year ? 'current' : '' }
-          onClick={() => setYear(moment(date, 'MM-YYYY').format('YYYY') - 1)}
+          className={ moment().subtract(1, 'y').format('YYYY') === year ? 'current' : '' }
+          onClick={() => onSelectYear(moment().subtract(1, 'y').format('YYYY'))}
         >
-          { moment().format('YYYY') - 1 }
+          { moment().subtract(1, 'y').format('YYYY') }
         </div>
         <div
           className={ moment().format('YYYY') === year ? 'current' : '' }
-          onClick={() => setYear(moment(date, 'MM-YYYY').format('YYYY'))}
+          onClick={() => onSelectYear(moment().format('YYYY'))}
         >
           { moment().format('YYYY') }
         </div>
