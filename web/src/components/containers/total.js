@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { fetchTotal } from '../../redux/actions';
 
-import TotalComponent from '../presentationals/totalComponent';
+import { TotalComponent } from '../presentationals/totalComponent';
 
 const mapStateToProps = state => ({
   total: state.total.total,
@@ -10,9 +10,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchTotal: (dateFilter = undefined) => dispatch(fetchTotal(dateFilter)),
+  fetchTotal: (year, month) => dispatch(fetchTotal(year, month)),
 });
 
-const Total = connect(mapStateToProps, mapDispatchToProps)(TotalComponent);
-
-export default Total;
+export const Total = connect(mapStateToProps, mapDispatchToProps)(TotalComponent);

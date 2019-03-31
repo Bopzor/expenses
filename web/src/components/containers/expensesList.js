@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { fetchExpenses, deleteExpense } from '../../redux/actions';
 
-import PayementsList from '../presentationals/payementsList';
+import { PayementsList } from '../presentationals/payementsList';
 
 const mapStateToProps = state => ({
   payementItems: state.expenses.list,
@@ -10,10 +10,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchPayementItems: (dateFilter = undefined) => dispatch(fetchExpenses(dateFilter)),
-  deletePayementItem: id => dispatch(deleteExpense(id)),
+  fetchPayementItems: (year, month) => dispatch(fetchExpenses(year, month)),
+  deletePayementItem: expense => dispatch(deleteExpense(expense)),
 });
 
-const ExpensesList = connect(mapStateToProps, mapDispatchToProps)(PayementsList);
-
-export default ExpensesList;
+export const ExpensesList = connect(mapStateToProps, mapDispatchToProps)(PayementsList);

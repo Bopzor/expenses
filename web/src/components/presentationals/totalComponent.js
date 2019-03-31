@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
-
-import PropTypes from 'prop-types';
-
 import { Table } from 'reactstrap';
 
-class TotalComponent extends Component {
+export class TotalComponent extends Component {
   componentDidMount() {
-    this.props.fetchTotal(this.props.dateFilter);
+    this.props.fetchTotal(this.props.year, this.props.month);
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.dateFilter !== prevProps.dateFilter) {
-      this.props.fetchTotal(this.props.dateFilter);
+    if (this.props.year !== prevProps.year || this.props.month !== prevProps.month) {
+      this.props.fetchTotal(this.props.year, this.props.month);
     }
   }
 
@@ -80,26 +77,3 @@ class TotalComponent extends Component {
     );
   }
 }
-
-TotalComponent.propTypes = {
-  className: PropTypes.string,
-  dateFilter: PropTypes.string,
-  error: PropTypes.oneOfType([PropTypes.instanceOf(Error), PropTypes.oneOf([null])]),
-  fetchTotal: PropTypes.func.isRequired,
-  fetching: PropTypes.bool.isRequired,
-  total: PropTypes.shape({
-    totalCommon: PropTypes.number,
-    nils: PropTypes.shape({
-      advances: PropTypes.number.isRequired,
-      expenses: PropTypes.number.isRequired,
-      total: PropTypes.number.isRequired,
-    }),
-    vio: PropTypes.shape({
-      advances: PropTypes.number.isRequired,
-      expenses: PropTypes.number.isRequired,
-      total: PropTypes.number.isRequired,
-    }),
-  }),
-};
-
-export default TotalComponent;

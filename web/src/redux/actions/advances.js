@@ -28,12 +28,8 @@ const getAdvances = {
   }),
 };
 
-export const fetchAdvances = (dateFilter = undefined) => (dispatch) => {
-  let url = BASE_URL;
-
-  if (dateFilter) {
-    url += `?year=${moment(dateFilter, 'MM-YYYY').format('YYYY')}&month=${moment(dateFilter, 'MM-YYYY').format('M')}`;
-  }
+export const fetchAdvances = (year, month) => (dispatch) => {
+  const url = `${BASE_URL}?year=${year}&month=${month}`;
 
   dispatch(getAdvances.REQUEST());
 
@@ -86,7 +82,7 @@ export const createAdvance = (advance) => (dispatch) => {
       (error) => dispatch(addAdvance.FAILURE(error))
     )
     .then(() => dispatch(addAdvance.FINISH()))
-    .then(() => dispatch(fetchTotal()));
+    .then(() => dispatch(fetchTotal(moment(advance.date).format('YYYY'), moment(advance.date).format('MM'))));
 };
 
 // REMOVE ADVANCE:
@@ -112,8 +108,8 @@ const removeAdvance = {
   }),
 };
 
-export const deleteAdvance = (id) => (dispatch) => {
-  const url = BASE_URL + '/' + id;
+export const deleteAdvance = (advance) => (dispatch) => {
+  const url = BASE_URL + '/' + advance.id;
   const opts = {
     method: 'DELETE',
     headers: new Headers({
@@ -125,11 +121,11 @@ export const deleteAdvance = (id) => (dispatch) => {
 
   return myFetch(url, opts)
     .then(
-      () => dispatch(removeAdvance.SUCCESS(id)),
+      () => dispatch(removeAdvance.SUCCESS(advance.id)),
       (error) => dispatch(removeAdvance.FAILURE(error))
     )
     .then(() => dispatch(removeAdvance.FINISH()))
-    .then(() => dispatch(fetchTotal()));
+    .then(() => dispatch(fetchTotal(moment(advance.date).format('YYYY'), moment(advance.date).format('MM'))));
 };
 
 // UPDATE ADVANCE:
@@ -173,5 +169,5 @@ export const editAdvance = (advance) => (dispatch) => {
       (error) => dispatch(updateAdvance.FAILURE(error))
     )
     .then(() => dispatch(updateAdvance.FINISH()))
-    .then(() => dispatch(fetchTotal()));
+    .then(() => dispatch(fetchTotal(moment(advance.date).format('YYYY'), moment(advance.date).format('MM'))));
 };

@@ -20,14 +20,10 @@ const getById = async (req, res, next) => {
 
 const getMonth = async (req, res, next) => {
   try {
-    let d = new Date();
+    const date = new Date(req.query.year, req.query.month - 1);
 
-    if (req.query.year && req.query.month) {
-      d = new Date(req.query.year, req.query.month);
-    }
-
-    const startOfMonth = new Date(d.getFullYear(), d.getMonth(), 2);
-    const endOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 1);
+    const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 2);
+    const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 1);
 
     const instances = await req.model.findAll({
       where: {

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import './payementItemInput.css';
@@ -16,12 +15,12 @@ import {
   Label
 } from 'reactstrap';
 
-class PayementItemInput extends React.Component {
+export class PayementItemInput extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      date: props.date ? moment().format('YYYY-MM-DD') : '',
+      date: props.date ? moment(props.date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
       description: '',
       cost: '',
       buyer: '',
@@ -78,8 +77,8 @@ class PayementItemInput extends React.Component {
       return;
 
     let redirect = this.props.payementType === 'advance' ?
-      '/month/advances' :
-      '/month';
+      `/list/advances/${moment(this.state.date).format('YYYY')}/${moment(this.state.date).format('MM')}` :
+      `/list/expenses/${moment(this.state.date).format('YYYY')}/${moment(this.state.date).format('MM')}`;
 
     if (!this.props.payementItem) {
       await this.props.createPayementItem(this.state);
@@ -103,9 +102,7 @@ class PayementItemInput extends React.Component {
       } else {
         this.setState({ formErrors: this.props.errors.errors })
       }
-
     }
-
   }
 
   dateChange(e) {
@@ -126,7 +123,7 @@ class PayementItemInput extends React.Component {
 
   resetPayementInput() {
     this.setState({
-      date: this.props.date ? moment().format('YYYY-MM-DD') : '',
+      date: moment().format('YYYY-MM-DD'),
       description: '',
       cost: '',
       buyer: '',
@@ -139,8 +136,8 @@ class PayementItemInput extends React.Component {
 
   onCancelUpdate() {
     let redirect = this.props.payementType === 'advance' ?
-      '/month/advances' :
-      '/month';
+      `/list/advances/${moment(this.state.date).format('YYYY')}/${moment(this.state.date).format('MM')}` :
+      `/list/expenses/${moment(this.state.date).format('YYYY')}/${moment(this.state.date).format('MM')}`;
 
     this.setState({ redirect })
   }
@@ -228,7 +225,7 @@ class PayementItemInput extends React.Component {
               placeholder='€'
               value={this.state.cost}
               onChange={e => this.costChange(e)}
-              invalid={this.state.formErrors.findIndex(i => i.field === 'cost') > 0}
+              invalid={costErrorIdx >= 0}
               />
 
             {this.renderFeedback(costErrorIdx)}
@@ -246,7 +243,9 @@ class PayementItemInput extends React.Component {
                 type="button"
                 onClick={() => this.buyerChange('Nils')}
                 active={this.state.buyer === 'Nils'}
-                className="bg-warning"
+                outline={this.state.buyer !== 'Nils'}
+                className="buyer"
+                color="warning"
                 >
                 Nils
               </Button>
@@ -255,7 +254,9 @@ class PayementItemInput extends React.Component {
                 type="button"
                 onClick={() => this.buyerChange('Vio')}
                 active={this.state.buyer === 'Vio'}
-                className="bg-primary"
+                outline={this.state.buyer !== 'Vio'}
+                className="buyer"
+                color="primary"
               >
                 Vio
               </Button>
@@ -271,7 +272,11 @@ class PayementItemInput extends React.Component {
           <Col>
             <FormGroup>
               <Col xs="12">
-                <Button type="submit" onClick={e => this.submitPayementItem(e)} disabled={this.props.isSubmitting}>
+                <Button
+                  type="submit"
+                  onClick={e => this.submitPayementItem(e)}
+                  disabled={this.props.isSubmitting || this.state.formErrors.length > 0}
+                >
                   {this.props.isSubmitting ? 'Loading' : buttonValue}
                 </Button>
               </Col>
@@ -292,14 +297,3 @@ class PayementItemInput extends React.Component {
     );
   }
 };
-
-PayementItemInput.propTypes = {
-  date: PropTypes.string,
-  errors: PropTypes.oneOfType([PropTypes.instanceOf(Error), PropTypes.oneOf([null])]),
-  isSubmitting: PropTypes.bool.isRequired,
-  payementType: PropTypes.oneOf(['expense', 'advance']).isRequired,
-  editPayementItem: PropTypes.func.isRequired,
-  createPayementItem: PropTypes.func.isRequired,
-}
-
-export default PayementItemInput;

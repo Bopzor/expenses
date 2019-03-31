@@ -11,10 +11,11 @@
   border: 2px solid #f4f4f4;
 }
 
-.month > div {
+.month > a {
   text-align: center;
   padding: 8px;
   background-color: #fff;
+  color: #000;
 }
 
 .year {
@@ -24,12 +25,14 @@
   justify-content: space-evenly;
   flex: 1;
   margin-bottom: 8px;
+  cursor: pointer;
 }
 
 .year > div {
   padding: 8px;
 }
 
-div.current {
+div.current, a.current, .month .active {
   font-weight: 800;
+  cursor: initial;
 }

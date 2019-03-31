@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { fetchAdvances, deleteAdvance } from '../../redux/actions';
 
-import PayementsList from '../presentationals/payementsList';
+import { PayementsList } from '../presentationals/payementsList';
 
 const mapStateToProps = state => ({
   payementItems: state.advances.list,
@@ -10,10 +10,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchPayementItems: (dateFilter = undefined) => dispatch(fetchAdvances(dateFilter)),
-  deletePayementItem: id => dispatch(deleteAdvance(id)),
+  fetchPayementItems: (year, month) => dispatch(fetchAdvances(year, month)),
+  deletePayementItem: advance => dispatch(deleteAdvance(advance)),
 });
 
-const AdvancesList = connect(mapStateToProps, mapDispatchToProps)(PayementsList);
-
-export default AdvancesList;
+export const AdvancesList = connect(mapStateToProps, mapDispatchToProps)(PayementsList);

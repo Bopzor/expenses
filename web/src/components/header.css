@@ -6,6 +6,16 @@
   margin: 10px 15px;
 }
 
-.active {
+.header a:hover, .header a:focus, .header a:active {
+  text-decoration: none;
+  color: #000;
+}
+
+.date, .payement-type {
+  color: #000;
+}
+
+.header .active {
   font-weight: bold;
+  font-size: 1.2em;
 }

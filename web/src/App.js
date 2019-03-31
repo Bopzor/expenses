@@ -1,49 +1,51 @@
-import React, { Component } from 'react';
-import { Route, Switch } from "react-router-dom";
+import React from 'react';
+import { Route, Switch, Redirect } from "react-router-dom";
 import moment from 'moment';
 
-import Month from './components/month';
-import Total from './components/containers/total';
-import InputPage from './components/inputPage';
+import { Month } from './components/month';
+import { InputPage } from './components/inputPage';
 import ExpensePage from './components/expensePage';
 import AdvancePage from './components/advancePage';
 
-class App extends Component {
-  state = {
-    dateFilter: moment().format('MM-YYYY'),
-  }
+const App = () => {
+  return (
+    <div className="App">
 
-  changeDateFilter(date) {
-    this.setState({ dateFilter: moment(date, 'MM-YYYY').format('MM-YYYY') });
-  }
+      <Switch>
+        <Route path={"/list/expenses/:year/:month"} render={
+          props => <Month year={props.match.params.year} month={props.match.params.month} payementType="expense" />
+        } />
 
-  render() {
-    return (
-      <div className="App">
+        <Route path={"/list/advances/:year/:month"} render={
+          props => <Month year={props.match.params.year} month={props.match.params.month} payementType="advance" />
+        } />
 
-        <Switch>
-          <Route path="/month" render={
-            props => <Month dateFilter={this.state.dateFilter} changeDate={date => this.changeDateFilter(date)} />
-          } />
+        <Route path="/expense/:id" render={
+          props => <ExpensePage id={props.match.params.id} />
+        } />
 
-          <Route path="/expense/:id" render={
-            props => <ExpensePage id={props.match.params.id} date={this.state.dateFilter} changeDate={date => this.changeDateFilter(date)} />
-          } />
+        <Route path="/advance/:id" render={
+          props => <AdvancePage id={props.match.params.id} />
+        } />
 
-          <Route path="/advance/:id" render={
-            props => <AdvancePage id={props.match.params.id} date={this.state.dateFilter} changeDate={date => this.changeDateFilter(date)} />
-          } />
+        <Route
+          path="/add/:year/:month"
+          render={props => <InputPage year={props.match.params.year} month={props.match.params.month} />}
+        />
+      </Switch>
 
-          <Route path="/" render={
-            props => <InputPage date={this.state.date} dateFilter={this.state.dateFilter} changeDate={date => this.changeDateFilter(date)} />
-          } />
-        </Switch>
+      <Route exact path="/list/:payementType?/:year?"
+        render={props => <Redirect to={`/list/expenses/${moment().format('YYYY')}/${moment().format('MM')}`} />}
+      />
 
-        <Total dateFilter={this.state.dateFilter} className="fixed-bottom" />
-      </div>
+      <Route
+        exact path="/"
+        render={props => <Redirect to={`/add/${moment().format('YYYY')}/${moment().format('MM')}/expense`} />}
+      />
 
-    );
-  }
+    </div>
+
+  );
 }
 
 export default App;

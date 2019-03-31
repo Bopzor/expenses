@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
-import PropTypes from 'prop-types';
-
-import AdvanceInput from './containers/advanceInput';
-import Header from './header';
+import { AdvanceInput } from './containers/advanceInput';
+import { Header } from './header';
+import { Total } from './containers/total';
 
 class AdvancePage extends Component {
   state = {
@@ -16,9 +16,15 @@ class AdvancePage extends Component {
 
     return (
       <div>
-        <Header date={new Date()} changeDate={date => this.props.changeDate(date)} />
+        <Header year={moment(advance.date).format('YYYY')} month={moment(advance.date).format('MM')} />
 
         <AdvanceInput payementType="advance" payementItem={advance} />
+
+        <Total
+          className="fixed-bottom"
+          year={moment(advance.date).format('YYYY')}
+          month={moment(advance.date).format('MM')}
+        />
       </div>
     );
 
@@ -28,11 +34,5 @@ class AdvancePage extends Component {
 const mapStateToProps = state => ({
   advances: state.advances.list,
 });
-
-AdvancePage.propTypes = {
-  date: PropTypes.instanceOf(Date),
-  changeDate: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired,
-};
 
 export default connect(mapStateToProps)(AdvancePage);

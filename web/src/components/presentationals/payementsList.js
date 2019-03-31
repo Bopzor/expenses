@@ -1,19 +1,16 @@
 import React from 'react';
-
 import { NavLink } from 'react-router-dom';
 
-import PropTypes from 'prop-types';
+import { PayementItem } from './payementItem';
 
-import PayementItem from './payementItem';
-
-class PayementsList extends React.Component {
+export class PayementsList extends React.Component {
   componentDidMount() {
-    this.props.fetchPayementItems(this.props.dateFilter);
+    this.props.fetchPayementItems(this.props.year, this.props.month);
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.dateFilter !== prevProps.dateFilter) {
-      this.props.fetchPayementItems(this.props.dateFilter);
+    if (this.props.year !== prevProps.year || this.props.month !== prevProps.month) {
+      this.props.fetchPayementItems(this.props.year, this.props.month);
     }
   }
 
@@ -23,15 +20,15 @@ class PayementsList extends React.Component {
         key={`key-${payementItem.id}`}
         payementItem={payementItem}
         payementType={this.props.payementType}
-        removePayementItem={id => this.props.deletePayementItem(id)}
+        removePayementItem={payementItem => this.props.deletePayementItem(payementItem)}
         date={this.props.date}
       />
     );
   }
 
   render() {
-    const { error, fetching, payementItems, payementType } = this.props;
-    let inputPath = payementType === 'expense' ? '/' : `/${payementType}`;
+    const { error, fetching, payementItems, payementType, year, month } = this.props;
+    const inputPath =  `/add/${year}/${month}/${payementType}`;
 
     if (error) {
       return (
@@ -68,25 +65,3 @@ class PayementsList extends React.Component {
     );
   }
 }
-
-PayementsList.propTypes = {
-  dateFilter: PropTypes.string,
-  deletePayementItem: PropTypes.func.isRequired,
-  fetchPayementItems: PropTypes.func.isRequired,
-  fetching: PropTypes.bool.isRequired,
-  payementItems: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      date: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      cost: PropTypes.number.isRequired,
-      buyer: PropTypes.oneOf(['Nils', 'Vio']),
-      createdAt: PropTypes.string.isRequired,
-      updatedAt: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  payementType: PropTypes.oneOf(['expense', 'advance']),
-};
-
-
-export default PayementsList;

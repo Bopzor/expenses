@@ -28,12 +28,8 @@ const getExpenses = {
   }),
 };
 
-export const fetchExpenses = (dateFilter = undefined) => (dispatch) => {
-  let url = BASE_URL;
-
-  if (dateFilter) {
-    url += `?year=${moment(dateFilter, 'MM-YYYY').format('YYYY')}&month=${moment(dateFilter, 'MM-YYYY').format('M')}`;
-  }
+export const fetchExpenses = (year, month) => (dispatch) => {
+  const url = `${BASE_URL}?year=${year}&month=${month}`;
 
   dispatch(getExpenses.REQUEST());
 
@@ -86,7 +82,7 @@ export const createExpense = (expense) => (dispatch) => {
       (error) => dispatch(addExpense.FAILURE(error))
     )
     .then(() => dispatch(addExpense.FINISH()))
-    .then(() => dispatch(fetchTotal()));
+    .then(() => dispatch(fetchTotal(moment(expense.date).format('YYYY'), moment(expense.date).format('MM'))));
 };
 
 // REMOVE EXPENSE:
@@ -112,8 +108,8 @@ const removeExpense = {
   }),
 };
 
-export const deleteExpense = (id) => (dispatch) => {
-  const url = BASE_URL + '/' + id;
+export const deleteExpense = (expense) => (dispatch) => {
+  const url = BASE_URL + '/' + expense.id;
   const opts = {
     method: 'DELETE',
     headers: new Headers({
@@ -125,11 +121,11 @@ export const deleteExpense = (id) => (dispatch) => {
 
   return myFetch(url, opts)
     .then(
-      () => dispatch(removeExpense.SUCCESS(id)),
+      () => dispatch(removeExpense.SUCCESS(expense.id)),
       (error) => dispatch(removeExpense.FAILURE(error))
     )
     .then(() => dispatch(removeExpense.FINISH()))
-    .then(() => dispatch(fetchTotal()));
+    .then(() => dispatch(fetchTotal(moment(expense.date).format('YYYY'), moment(expense.date).format('MM'))));
 };
 
 // UPDATE EXPENSE:
@@ -173,5 +169,5 @@ export const editExpense = (expense) => (dispatch) => {
       (error) => dispatch(updateExpense.FAILURE(error))
     )
     .then(() => dispatch(updateExpense.FINISH()))
-    .then(() => dispatch(fetchTotal()));
+    .then(() => dispatch(fetchTotal(moment(expense.date).format('YYYY'), moment(expense.date).format('MM'))));
 };

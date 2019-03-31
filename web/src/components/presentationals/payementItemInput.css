@@ -2,3 +2,7 @@
   color: red;
   font-size: 0.8rem;
 }
+
+.buyer.active {
+  font-weight: bold;
+}

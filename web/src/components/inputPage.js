@@ -1,47 +1,37 @@
 import React from 'react';
-
 import { Route, Switch } from "react-router-dom";
 
-import PropTypes from 'prop-types';
+import { ExpenseInput } from './containers/expenseInput';
+import { AdvanceInput } from './containers/advanceInput';
+import { Header } from './header';
+import { Total } from './containers/total';
 
-import ExpenseInput from './containers/expenseInput';
-import AdvanceInput from './containers/advanceInput';
-import Header from './header';
-
-const InputPage = (props) => {
+export const InputPage = ({ year, month }) => {
   const navPaths = [
     {
-      pathname: "Expense",
-      path: "/"
+      pathname: 'Expense',
+      path: `/add/${year}/${month}/expense`,
     },
     {
-      pathname: "Advance",
-      path: "/advance"
+      pathname: 'Advance',
+      path: `/add/${year}/${month}/advance`,
     },
   ];
 
   return (
     <div>
-
-      <Header date={props.dateFilter} navPaths={navPaths} changeDate={date => props.changeDate(date)} />
+      <Header navPaths={navPaths} year={year} month={month} />
 
       <Switch>
-        <Route path="/advance" render={
-          routeProps => <AdvanceInput payementType="advance" date={props.dateFilter} />
+        <Route path={navPaths[0].path} render={
+          props => <ExpenseInput payementType="expense" />
         } />
-        <Route exact path="/" render={
-          routeProps => <ExpenseInput payementType="expense" date={props.dateFilter} />
+        <Route path={navPaths[1].path} render={
+          props => <AdvanceInput payementType="advance" />
         } />
       </Switch>
 
+      <Total className="fixed-bottom" year={year} month={month} />
     </div>
   );
 };
-
-InputPage.propTypes = {
-  date: PropTypes.instanceOf(Date),
-  changeDate: PropTypes.func.isRequired,
-};
-
-
-export default InputPage;

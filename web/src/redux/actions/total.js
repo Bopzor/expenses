@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 import { myFetch } from '../../utilities';
 
 const BASE_URL = `${process.env.REACT_APP_API_URL}/total`;
@@ -27,12 +25,8 @@ const getTotal = {
   }),
 };
 
-export const fetchTotal = (dateFilter = undefined) => (dispatch) => {
-  let url = BASE_URL;
-
-  if (dateFilter) {
-    url += `?year=${moment(dateFilter, 'MM-YYYY').format('YYYY')}&month=${moment(dateFilter, 'MM-YYYY').format('M')}`;
-  }
+export const fetchTotal = (year, month) => (dispatch) => {
+  const url = `${BASE_URL}?year=${year}&month=${month}`;
 
   dispatch(getTotal.REQUEST());
 

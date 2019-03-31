@@ -11,16 +11,12 @@ const Op = Sequelize.Op;
 
 const getTotal = async (req, res, next) => {
   try {
-    let d = new Date();
+    const date = new Date(req.query.year, req.query.month - 1);
 
-    if (req.query.month && req.query.year) {
-      d = new Date(req.query.year, req.query.month);
-    }
+    const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 2);
+    const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 1);
 
-    const startOfMonth = new Date(d.getFullYear(), d.getMonth(), 1);
-    const endOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 1);
-
-    const totalExpensesCommon =await Expense.findAll({
+    const totalExpensesCommon = await Expense.findAll({
       where: {
         date: {
           [Op.between]: [startOfMonth, endOfMonth],

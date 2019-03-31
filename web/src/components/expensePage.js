@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
-import PropTypes from 'prop-types';
-
-import ExpenseInput from './containers/expenseInput';
-import Header from './header';
+import { ExpenseInput } from './containers/expenseInput';
+import { Header } from './header';
+import { Total } from './containers/total';
 
 class ExpensePage extends Component {
   state = {
@@ -16,9 +16,15 @@ class ExpensePage extends Component {
 
     return (
       <div>
-        <Header date={new Date()} changeDate={date => this.props.changeDate(date)} />
+        <Header year={moment(expense.date).format('YYYY')} month={moment(expense.date).format('MM')} />
 
         <ExpenseInput payementType="expense" payementItem={expense} />
+
+        <Total
+          className="fixed-bottom"
+          year={moment(expense.date).format('YYYY')}
+          month={moment(expense.date).format('MM')}
+        />
       </div>
     );
 
@@ -28,11 +34,5 @@ class ExpensePage extends Component {
 const mapStateToProps = state => ({
   expenses: state.expenses.list,
 });
-
-ExpensePage.propTypes = {
-  date: PropTypes.instanceOf(Date),
-  changeDate: PropTypes.func.isRequired,
-
-};
 
 export default connect(mapStateToProps)(ExpensePage);
