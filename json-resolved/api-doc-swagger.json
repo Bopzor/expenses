@@ -23,14 +23,14 @@
         "parameters" : [ {
           "name" : "year",
           "in" : "query",
-          "description" : "pass an optional int for specifiying the year (yyyy)",
-          "required" : false,
+          "description" : "pass an int for specifiying the year (yyyy)",
+          "required" : true,
           "type" : "integer"
         }, {
           "name" : "month",
           "in" : "query",
-          "description" : "pass an optional int for specifiyingthe month (m)",
-          "required" : false,
+          "description" : "pass an int for specifiyingthe month (01 - 12)",
+          "required" : true,
           "type" : "integer",
           "minimum" : 0
         } ],
@@ -130,13 +130,13 @@
           "name" : "year",
           "in" : "query",
           "description" : "pass an optional int for specifiying the year (yyyy)",
-          "required" : false,
+          "required" : true,
           "type" : "integer"
         }, {
           "name" : "month",
           "in" : "query",
-          "description" : "pass an optional int for specifiyingthe month (m)",
-          "required" : false,
+          "description" : "pass an optional int for specifiyingthe month (01 - 12)",
+          "required" : true,
           "type" : "integer",
           "minimum" : 0
         } ],
@@ -161,13 +161,13 @@
           "name" : "year",
           "in" : "query",
           "description" : "pass an optional int for specifiying the year (yyyy)",
-          "required" : false,
+          "required" : true,
           "type" : "integer"
         }, {
           "name" : "month",
           "in" : "query",
-          "description" : "pass an optional int for specifiyingthe month (m)",
-          "required" : false,
+          "description" : "pass an optional int for specifiyingthe month (01 - 12)",
+          "required" : true,
           "type" : "integer",
           "minimum" : 0
         } ],
