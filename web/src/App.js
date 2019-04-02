@@ -32,16 +32,14 @@ const App = () => {
           path="/add/:year/:month"
           render={props => <InputPage year={props.match.params.year} month={props.match.params.month} />}
         />
+
+        <Redirect from="/" to={`/add/${moment().format('YYYY')}/${moment().format('MM')}/expense`} />
       </Switch>
 
       <Route exact path="/list/:payementType?/:year?"
         render={props => <Redirect to={`/list/expenses/${moment().format('YYYY')}/${moment().format('MM')}`} />}
       />
 
-      <Route
-        exact path="/"
-        render={props => <Redirect to={`/add/${moment().format('YYYY')}/${moment().format('MM')}/expense`} />}
-      />
 
     </div>
 
