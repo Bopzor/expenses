@@ -16,7 +16,7 @@ describe('Advance model', () => {
 
   it('should return empty advances list', () => {
     return request(app)
-      .get('/advances')
+      .get('/advances?year=2019&month=02')
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
@@ -119,7 +119,7 @@ describe('Advance model', () => {
     });
 
     return request(app)
-      .get('/advances/?year=2019&month=1')
+      .get('/advances/?year=2019&month=02')
       .expect(200)
       .then(async (res) => {
         assert.isArray(res.body);

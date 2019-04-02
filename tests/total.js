@@ -29,7 +29,7 @@ describe('total route', () => {
     };
 
     return request(app)
-    .get('/total')
+    .get('/total?year=2019&month=02')
     .expect('Content-Type', /json/)
     .expect(200)
     .then((res) => {
@@ -78,7 +78,7 @@ describe('total route', () => {
     };
 
     return request(app)
-      .get('/total/?year=2019&month=1')
+      .get('/total/?year=2019&month=02')
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
@@ -127,7 +127,7 @@ describe('total route', () => {
     };
 
     return request(app)
-      .get('/total/?year=2019&month=1')
+      .get('/total/?year=2019&month=02')
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
@@ -194,7 +194,7 @@ describe('total route', () => {
     };
 
     return request(app)
-      .get('/total/?year=2019&month=1')
+      .get('/total/?year=2019&month=02')
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {

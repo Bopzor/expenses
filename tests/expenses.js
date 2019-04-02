@@ -16,7 +16,7 @@ describe('Expense model', () => {
 
   it('should return empty expense list', () => {
     return request(app)
-      .get('/expenses')
+      .get('/expenses?year=2019&month=02')
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
@@ -119,7 +119,7 @@ describe('Expense model', () => {
     });
 
     return request(app)
-      .get('/expenses/?year=2019&month=1')
+      .get('/expenses/?year=2019&month=02')
       .expect(200)
       .then(async (res) => {
         assert.isArray(res.body);
