@@ -8,7 +8,7 @@ const getById = async (req, res, next) => {
     const instance = await req.model.findByPk(req.params.id);
 
     if (!instance) {
-      res.status(404).end('Instance not found');
+      res.status(404).end(`${req.model} not found.`);
     } else {
       req.instance = instance;
       next();
@@ -18,7 +18,7 @@ const getById = async (req, res, next) => {
   }
 };
 
-const getMonth = async (req, res, next) => {
+const getByMonth = async (req, res, next) => {
   try {
     const date = new Date(req.query.year, req.query.month - 1);
 
@@ -84,7 +84,7 @@ const remove = async (req, res, next) => {
 
 module.exports = {
   getById,
-  getMonth,
+  getByMonth,
   create,
   update,
   remove,

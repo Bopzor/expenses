@@ -3,7 +3,7 @@ import express from 'express';
 import { sequelize } from '../../models';
 
 import validate from './validate';
-import { getById, getMonth, create, update, remove } from './crud';
+import { getById, getByMonth, create, update, remove } from './crud';
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ router.use((req, res, next) => {
 
 router.param('id', getById);
 
-router.get('/', getMonth);
+router.get('/', getByMonth);
 
 router.post('/', validate(), create);
 router.put('/:id', validate(), update);
