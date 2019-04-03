@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 import { MonthAndYearPicker } from './MonthAndYearPicker';
 
@@ -24,14 +24,14 @@ export class Header extends Component {
     );
   }
 
-  formatMonthNavLink(year, month) {
+  formatMonthLink(year, month) {
     return (
-      <NavLink
+      <Link
         className="date"
         to={`/list/expenses/${year}/${month}`}
       >
         { `${month}-${year}` }
-      </NavLink>
+      </Link>
     );
   }
 
@@ -51,12 +51,12 @@ export class Header extends Component {
 
         <span onClick={() => this.toggleModal()}>
 
-          {this.formatMonthNavLink(year, month)}
+          {this.formatMonthLink(year, month)}
           <i className="far fa-calendar-alt" />
 
           <Modal isOpen={this.state.modal} toggle={() => this.toggleModal()}>
 
-            <ModalHeader toggle={() => this.toggleModal()}>Change date</ModalHeader>
+            <ModalHeader toggle={() => this.toggleModal()}>Change month</ModalHeader>
 
             <ModalBody>
 
