@@ -1,0 +1,398 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "This is a simple CRUD API to get monthly expenses",
+    "version" : "1.0.0",
+    "title" : "Expenses API",
+    "license" : {
+      "name" : "MIT",
+      "url" : "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/bopzor/Expenses/1.0.0",
+  "schemes" : [ "https", "http" ],
+  "paths" : {
+    "/expenses" : {
+      "get" : {
+        "tags" : [ "expenses" ],
+        "summary" : "get the current month expenses",
+        "description" : "Get the current month expenses.\nBy passing the correct query params, get the expenses list from a specific month. \n",
+        "operationId" : "getMonthExpense",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "year",
+          "in" : "query",
+          "description" : "pass an int for specifiying the year (yyyy)",
+          "required" : true,
+          "type" : "integer"
+        }, {
+          "name" : "month",
+          "in" : "query",
+          "description" : "pass an int for specifiyingthe month (01 - 12)",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "expenses list for current or specified month",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Expense"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "expenses" ],
+        "summary" : "adds an expense item",
+        "description" : "Adds an expense in the DB",
+        "operationId" : "createExpense",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "Expense",
+          "description" : "Expense item to add",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/ExpensePartial"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "item created"
+          }
+        }
+      }
+    },
+    "/expenses/{id}" : {
+      "put" : {
+        "tags" : [ "expenses" ],
+        "summary" : "updates an existing expense item",
+        "description" : "Updates and existing expense in the DB",
+        "operationId" : "updateExpense",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of expense to update",
+          "required" : true,
+          "type" : "integer"
+        }, {
+          "in" : "body",
+          "name" : "Expense",
+          "description" : "Expense item to update",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Expense"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "item updated"
+          },
+          "400" : {
+            "description" : "bad request"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "expenses" ],
+        "summary" : "delete expense matching given id",
+        "operationId" : "removeExense",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of expense to delete",
+          "required" : true,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "no content"
+          }
+        }
+      }
+    },
+    "/total" : {
+      "get" : {
+        "tags" : [ "total" ],
+        "summary" : "get total of expenses and advances from a month",
+        "description" : "Get the current month total of expenses and advances.\nBy passing the correct query params, get the total of expenses and advances from a specific month. \n",
+        "operationId" : "getTotal",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "year",
+          "in" : "query",
+          "description" : "pass an optional int for specifiying the year (yyyy)",
+          "required" : true,
+          "type" : "integer"
+        }, {
+          "name" : "month",
+          "in" : "query",
+          "description" : "pass an optional int for specifiyingthe month (01 - 12)",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "returns total of expenses and advances from current or specified month",
+            "schema" : {
+              "$ref" : "#/definitions/Total"
+            }
+          }
+        }
+      }
+    },
+    "/advances" : {
+      "get" : {
+        "tags" : [ "advances" ],
+        "summary" : "get the current month advances",
+        "description" : "Get the current month advances.\nBy passing the correct query params, get the advances list from a specific month. \n",
+        "operationId" : "getMonthAdvances",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "year",
+          "in" : "query",
+          "description" : "pass an optional int for specifiying the year (yyyy)",
+          "required" : true,
+          "type" : "integer"
+        }, {
+          "name" : "month",
+          "in" : "query",
+          "description" : "pass an optional int for specifiyingthe month (01 - 12)",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "advances list for current or specified month",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Advance"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "advances" ],
+        "summary" : "adds an advance item",
+        "description" : "Adds an advance in the DB",
+        "operationId" : "createAdvance",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "Advance",
+          "description" : "Advance item to add",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/AdvancePartial"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "item created"
+          }
+        }
+      }
+    },
+    "/advances/{id}" : {
+      "put" : {
+        "tags" : [ "advances" ],
+        "summary" : "updates an existing advance item",
+        "description" : "Updates and existing advance in the DB",
+        "operationId" : "updateAdvance",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of advance to update",
+          "required" : true,
+          "type" : "integer"
+        }, {
+          "in" : "body",
+          "name" : "Advance",
+          "description" : "Advance item to update",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Advance"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "item updated"
+          },
+          "400" : {
+            "description" : "bad request"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "advances" ],
+        "summary" : "delete advance matching given id",
+        "operationId" : "removeAdvance",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of advance to delete",
+          "required" : true,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "no content"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Expense" : {
+      "type" : "object",
+      "required" : [ "buyer", "cost", "createdAt", "date", "description", "id", "updatedAt" ],
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "example" : 42
+        },
+        "description" : {
+          "type" : "string",
+          "example" : "Shopping"
+        },
+        "date" : {
+          "type" : "string",
+          "example" : "2019-03-21"
+        },
+        "cost" : {
+          "type" : "integer",
+          "example" : 69,
+          "minimum" : 0
+        },
+        "buyer" : {
+          "type" : "string",
+          "enum" : [ "Vio", "Nils" ]
+        },
+        "createdAt" : {
+          "type" : "string",
+          "example" : "2019-03-03T19:23:50.848Z"
+        },
+        "updatedAt" : {
+          "type" : "string",
+          "example" : "2019-03-04T19:23:50.848Z"
+        }
+      }
+    },
+    "ExpensePartial" : {
+      "type" : "object",
+      "required" : [ "buyer", "cost", "date", "description" ],
+      "properties" : {
+        "description" : {
+          "type" : "string",
+          "example" : "Shopping"
+        },
+        "date" : {
+          "type" : "string",
+          "example" : "2019-03-21"
+        },
+        "cost" : {
+          "type" : "integer",
+          "example" : 69,
+          "minimum" : 0
+        },
+        "buyer" : {
+          "type" : "string",
+          "enum" : [ "Vio", "Nils" ]
+        }
+      }
+    },
+    "Total" : {
+      "type" : "object",
+      "required" : [ "nils", "vio" ],
+      "properties" : {
+        "vio" : {
+          "type" : "array",
+          "example" : [ 23, 45 ],
+          "items" : {
+            "type" : "integer"
+          }
+        },
+        "nils" : {
+          "type" : "array",
+          "example" : [ 54, 32 ],
+          "items" : {
+            "type" : "integer"
+          }
+        }
+      }
+    },
+    "Advance" : {
+      "type" : "object",
+      "required" : [ "buyer", "cost", "createdAt", "date", "description", "id", "updatedAt" ],
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "example" : 42
+        },
+        "description" : {
+          "type" : "string",
+          "example" : "Shopping"
+        },
+        "date" : {
+          "type" : "string",
+          "example" : "2019-03-21"
+        },
+        "cost" : {
+          "type" : "integer",
+          "example" : 69,
+          "minimum" : 0
+        },
+        "buyer" : {
+          "type" : "string",
+          "enum" : [ "Vio", "Nils" ]
+        },
+        "createdAt" : {
+          "type" : "string",
+          "example" : "2019-03-03T19:23:50.848Z"
+        },
+        "updatedAt" : {
+          "type" : "string",
+          "example" : "2019-03-04T19:23:50.848Z"
+        }
+      }
+    },
+    "AdvancePartial" : {
+      "type" : "object",
+      "required" : [ "buyer", "cost", "date", "description" ],
+      "properties" : {
+        "description" : {
+          "type" : "string",
+          "example" : "Shopping"
+        },
+        "date" : {
+          "type" : "string",
+          "example" : "2019-03-21"
+        },
+        "cost" : {
+          "type" : "integer",
+          "example" : 69,
+          "minimum" : 0
+        },
+        "buyer" : {
+          "type" : "string",
+          "enum" : [ "Vio", "Nils" ]
+        }
+      }
+    }
+  }
+}
