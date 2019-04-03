@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { fetchTotal } from '../../redux/actions';
 
-import { TotalComponent } from '../presentationals/totalComponent';
+import { TotalComponent } from '../presentationals/TotalComponent';
 
 const mapStateToProps = state => ({
   total: state.total.total,

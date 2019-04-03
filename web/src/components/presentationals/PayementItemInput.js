@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 
-import './payementItemInput.css';
+import './PayementItemInput.css';
 
 import {
   Row,
@@ -67,22 +67,22 @@ export class PayementItemInput extends React.Component {
     return new Promise(resolve => this.setState({ formErrors: errors }, resolve));
   }
 
-  async submitPayementItem(e) {
-    e.preventDefault();
-    e.stopPropagation();
+  async submitPayementItem(event) {
+    event.preventDefault();
+    event.stopPropagation();
 
     await this.validateForm();
 
     if (this.state.formErrors.length > 0)
       return;
 
-    let redirect = this.props.payementType === 'advance' ?
-      `/list/advances/${moment(this.state.date).format('YYYY')}/${moment(this.state.date).format('MM')}` :
-      `/list/expenses/${moment(this.state.date).format('YYYY')}/${moment(this.state.date).format('MM')}`;
+    let redirect = (this.props.payementType === 'advance'
+      ? `/list/advances/${moment(this.state.date).format('YYYY')}/${moment(this.state.date).format('MM')}`
+      : `/list/expenses/${moment(this.state.date).format('YYYY')}/${moment(this.state.date).format('MM')}`
+    );
 
     if (!this.props.payementItem) {
       await this.props.createPayementItem(this.state);
-
       await this.validateForm();
 
       if (this.props.errors === null) {
@@ -105,16 +105,16 @@ export class PayementItemInput extends React.Component {
     }
   }
 
-  dateChange(e) {
-    this.setState({ date: e.target.value.toString() });
+  onDateChange(event) {
+    this.setState({ date: event.target.value.toString() });
   }
 
-  descriptionChange(e) {
-    this.setState({ description: e.target.value }, () => this.validateForm());
+  onDescriptionChange(event) {
+    this.setState({ description: event.target.value }, () => this.validateForm());
   }
 
-  costChange(e) {
-    this.setState({ cost: e.target.value }, () => this.validateForm());
+  onCostChange(event) {
+    this.setState({ cost: event.target.value }, () => this.validateForm());
   }
 
   buyerChange(buyer) {
@@ -144,7 +144,6 @@ export class PayementItemInput extends React.Component {
 
   renderActionButton() {
     if (!this.state.initialized) {
-
       return (
         <Button type="button" onClick={() => this.resetPayementInput()}>
           Reset
@@ -192,7 +191,7 @@ export class PayementItemInput extends React.Component {
               type="date"
               value={this.state.date}
               placeholder={this.state.date}
-              onChange={e => this.dateChange(e)}
+              onChange={e => this.onDateChange(e)}
               invalid={dateErrorIdx >= 0}
             />
 
@@ -208,7 +207,7 @@ export class PayementItemInput extends React.Component {
               type="text"
               placeholder='description'
               value={this.state.description}
-              onChange={e => this.descriptionChange(e)}
+              onChange={e => this.onDescriptionChange(e)}
               invalid={descriptionErrorIdx >= 0}
               />
 
@@ -218,13 +217,13 @@ export class PayementItemInput extends React.Component {
         </FormGroup>
 
         <FormGroup>
-          <Label for="cost" xs={2}>Cost</Label>
           <Col xs="12">
+          <Label for="cost">Cost</Label>
             <Input
               type="number"
               placeholder='€'
               value={this.state.cost}
-              onChange={e => this.costChange(e)}
+              onChange={e => this.onCostChange(e)}
               invalid={costErrorIdx >= 0}
               />
 

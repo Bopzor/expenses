@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import moment from 'moment';
 
-import './payementItem.css';
+import './PayementItem.css';
 
 export const PayementItem = ({ payementItem, payementType, removePayementItem }) => {
   return (

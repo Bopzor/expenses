@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { createExpense, editExpense } from '../../redux/actions';
 
-import { PayementItemInput } from '../presentationals/payementItemInput';
+import { PayementItemInput } from '../presentationals/PayementItemInput';
 
 const mapsStateToProps = state => ({
   isSubmitting: state.expenses.addingExpense,

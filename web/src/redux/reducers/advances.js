@@ -17,7 +17,16 @@ import {
   UPDATE_ADVANCE_FINISH,
 } from '../actions';
 
-const advances = (state = { fetchingAdvances: false, errors: null, list: [], addingAdvance: false, removingAdvance: false, updatingAdvance: false }, action) => {
+const defaultState = {
+  fetchingAdvances: false,
+  errors: null,
+  list: [],
+  addingAdvance: false,
+  removingAdvance: false,
+  updatingAdvance: false
+};
+
+export const advances = (state = defaultState, action) => {
   switch (action.type) {
 
     case GET_ADVANCES_REQUEST:
@@ -130,5 +139,3 @@ const advances = (state = { fetchingAdvances: false, errors: null, list: [], add
       return state;
   }
 };
-
-export default advances;

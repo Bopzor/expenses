@@ -32,7 +32,7 @@
   padding: 8px;
 }
 
-div.current, a.current, .month .active {
+div.selected, .month .active {
   font-weight: 800;
   cursor: initial;
 }

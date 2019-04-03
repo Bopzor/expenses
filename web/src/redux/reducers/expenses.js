@@ -17,7 +17,16 @@ import {
   UPDATE_EXPENSE_FINISH,
 } from '../actions';
 
-const expenses = (state = { fetchingExpenses: false, errors: null, list: [], addingExpense: false, removingExpense: false, updatingExpense: false }, action) => {
+const defaultState = {
+  fetchingExpenses: false,
+  errors: null,
+  list: [],
+  addingExpense: false,
+  removingExpense: false,
+  updatingExpense: false
+};
+
+export const expenses = (state = defaultState, action) => {
   switch (action.type) {
 
     case GET_EXPENSES_REQUEST:
@@ -130,5 +139,3 @@ const expenses = (state = { fetchingExpenses: false, errors: null, list: [], add
       return state;
   }
 };
-
-export default expenses;

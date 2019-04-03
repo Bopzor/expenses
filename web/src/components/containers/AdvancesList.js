@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { fetchAdvances, deleteAdvance } from '../../redux/actions';
 
-import { PayementsList } from '../presentationals/payementsList';
+import { PayementsList } from '../presentationals/PayementsList';
 
 const mapStateToProps = state => ({
   payementItems: state.advances.list,

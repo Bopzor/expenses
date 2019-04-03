@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Switch } from "react-router-dom";
 
-import { ExpenseInput } from './containers/expenseInput';
-import { AdvanceInput } from './containers/advanceInput';
-import { Header } from './header';
-import { Total } from './containers/total';
+import { ExpenseInput } from './containers/ExpenseInput';
+import { AdvanceInput } from './containers/AdvanceInput';
+import { Header } from './Header';
+import { Total } from './containers/Total';
 
 export const InputPage = ({ year, month }) => {
   const navPaths = [
@@ -31,7 +31,7 @@ export const InputPage = ({ year, month }) => {
         } />
       </Switch>
 
-      <Total className="fixed-bottom" year={year} month={month} />
+      <Total year={year} month={month} />
     </div>
   );
 };

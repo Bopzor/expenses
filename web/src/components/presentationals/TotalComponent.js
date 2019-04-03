@@ -18,7 +18,7 @@ export class TotalComponent extends Component {
 
     if (error) {
       return (
-        <Table size="sm" responsive>
+        <Table size="sm" responsive className="fixed-bottom">
           <tbody>
             <tr>
               <td colSpan="4">Error! {error.message}</td>
@@ -30,7 +30,7 @@ export class TotalComponent extends Component {
 
     if (fetching) {
       return (
-        <Table size="sm" responsive>
+        <Table size="sm" responsive className="fixed-bottom">
           <tbody>
             <tr>
               <td colSpan="4">Loading...</td>
@@ -44,8 +44,8 @@ export class TotalComponent extends Component {
       return null;
 
     return (
-      <Table size="sm" responsive>
-        <thead>
+      <Table size="sm" responsive className="fixed-bottom">
+        <thead className="bg-white">
           <tr>
             <th>Expenses</th>
             <th>Advances</th>

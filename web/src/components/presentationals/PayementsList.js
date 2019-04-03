@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { PayementItem } from './payementItem';
+import { PayementItem } from './PayementItem';
 
 export class PayementsList extends React.Component {
   componentDidMount() {

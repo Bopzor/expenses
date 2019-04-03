@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { AdvanceInput } from './containers/advanceInput';
-import { Header } from './header';
-import { Total } from './containers/total';
+import { AdvanceInput } from './containers/AdvanceInput';
+import { Header } from './Header';
+import { Total } from './containers/Total';
 
 class AdvancePage extends Component {
   state = {
@@ -13,18 +13,16 @@ class AdvancePage extends Component {
 
   render() {
     const { advance } = this.state;
+    const year = moment(advance.date).format('YYYY');
+    const month = moment(advance.date).format('MM');
 
     return (
       <div>
-        <Header year={moment(advance.date).format('YYYY')} month={moment(advance.date).format('MM')} />
+        <Header year={year} month={month} />
 
         <AdvanceInput payementType="advance" payementItem={advance} />
 
-        <Total
-          className="fixed-bottom"
-          year={moment(advance.date).format('YYYY')}
-          month={moment(advance.date).format('MM')}
-        />
+        <Total year={year} month={month} />
       </div>
     );
 

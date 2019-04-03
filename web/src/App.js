@@ -2,10 +2,10 @@ import React from 'react';
 import { Route, Switch, Redirect } from "react-router-dom";
 import moment from 'moment';
 
-import { Month } from './components/month';
-import { InputPage } from './components/inputPage';
-import ExpensePage from './components/expensePage';
-import AdvancePage from './components/advancePage';
+import { ListPage } from './components/ListPage';
+import { InputPage } from './components/InputPage';
+import ExpensePage from './components/ExpensePage';
+import AdvancePage from './components/AdvancePage';
 
 const App = () => {
   return (
@@ -13,11 +13,23 @@ const App = () => {
 
       <Switch>
         <Route path={"/list/expenses/:year/:month"} render={
-          props => <Month year={props.match.params.year} month={props.match.params.month} payementType="expense" />
+          props => (
+            <ListPage
+              year={props.match.params.year}
+              month={props.match.params.month}
+              payementType="expense"
+            />
+          )
         } />
 
         <Route path={"/list/advances/:year/:month"} render={
-          props => <Month year={props.match.params.year} month={props.match.params.month} payementType="advance" />
+          props => (
+            <ListPage
+              year={props.match.params.year}
+              month={props.match.params.month}
+              payementType="advance"
+            />
+          )
         } />
 
         <Route path="/expense/:id" render={

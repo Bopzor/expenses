@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { ExpenseInput } from './containers/expenseInput';
-import { Header } from './header';
-import { Total } from './containers/total';
+import { ExpenseInput } from './containers/ExpenseInput';
+import { Header } from './Header';
+import { Total } from './containers/Total';
 
 class ExpensePage extends Component {
   state = {
@@ -13,18 +13,16 @@ class ExpensePage extends Component {
 
   render() {
     const { expense } = this.state;
+    const year = moment(expense.date).format('YYYY');
+    const month = moment(expense.date).format('MM');
 
     return (
       <div>
-        <Header year={moment(expense.date).format('YYYY')} month={moment(expense.date).format('MM')} />
+        <Header year={year} month={month} />
 
         <ExpenseInput payementType="expense" payementItem={expense} />
 
-        <Total
-          className="fixed-bottom"
-          year={moment(expense.date).format('YYYY')}
-          month={moment(expense.date).format('MM')}
-        />
+        <Total year={year} month={month} />
       </div>
     );
 
