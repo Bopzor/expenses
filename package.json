@@ -9,7 +9,12 @@
     "start": "node lib/api/index.js",
     "start:test": "NODE_ENV=test mocha ./lib/tests",
     "build": "babel api -d lib/api",
-    "build:test": "babel tests -d lib/tests"
+    "build:test": "babel tests -d lib/tests",
+    "build:app": "cd web && yarn build",
+    "docker:build": "docker build --build-arg REACT_APP_API_URL -t expenses .",
+    "docker:run": "docker run -dt --name expenses-container -v ${PWD}/db:/opt/app/db -u $(id -u):$(id -g) -e PORT=8080 -p 6978:8080 expenses",
+    "prod": "sequelize db:migrate && db:seed:all && node lib/api/index.js",
+    "sequelize": "sequelize"
   },
   "dependencies": {
     "@babel/helper-module-imports": "^7.0.0",
@@ -19,6 +24,7 @@
     "csv": "^5.1.1",
     "express": "^4.16.4",
     "express-validator": "^5.3.1",
+    "moment": "^2.24.0",
     "parse-csv": "^0.2.0",
     "pg": "^7.7.1",
     "pg-hstore": "^2.3.2",

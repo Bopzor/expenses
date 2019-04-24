@@ -60,6 +60,9 @@ export class Header extends Component {
             isOpen={this.state.modal}
             onRequestClose={() => this.toggleModal()}
             style={{
+              overlay: {
+                zIndex: 1031 // bootstrap put z-index = 1030 on fixed-bottom class used in TotalComponent
+              },
               content: {
                 position: "relative",
                 bottom: "initial",
