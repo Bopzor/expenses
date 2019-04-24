@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import ReactModal from 'react-modal';
+
 import { BrowserRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
@@ -24,6 +26,8 @@ const store = createStore(
     logger
   )
 );
+
+ReactModal.setAppElement('#root');
 
 ReactDOM.render(
   <Provider store={store}>

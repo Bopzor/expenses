@@ -3,7 +3,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin: 10px 15px;
+  padding: 10px 15px;
 }
 
 .header a:hover, .header a:focus, .header a:active {
@@ -18,4 +18,9 @@
 .header .active {
   font-weight: bold;
   font-size: 1.2em;
+}
+
+h3.modal-header {
+  border-bottom: 1px solid #eee;
+  padding: 3px;
 }

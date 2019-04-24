@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import ReactModal from 'react-modal';
 import { NavLink, Link } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -51,16 +51,28 @@ export class Header extends Component {
           navPaths ? navPaths.map(elem => this.renderPayementTypeNav(elem)) : null
         }
 
-        <span onClick={() => this.toggleModal()}>
+        <span>
 
           {this.formatMonthLink(year, month)}
-          <FontAwesomeIcon icon="calendar-alt" />
+          <FontAwesomeIcon icon="calendar-alt" onClick={() => this.toggleModal()} />
 
-          <Modal isOpen={this.state.modal} toggle={() => this.toggleModal()}>
+          <ReactModal
+            isOpen={this.state.modal}
+            onRequestClose={() => this.toggleModal()}
+            style={{
+              content: {
+                position: "relative",
+                bottom: "initial",
+                left: "initial",
+                right: "initial",
+                margin: '0 10px'
+              }
+            }}
+          >
 
-            <ModalHeader toggle={() => this.toggleModal()}>Change month</ModalHeader>
+            <h3 className="modal-header">Change month</h3>
 
-            <ModalBody>
+            <div>
 
               <MonthAndYearPicker
                 year={year}
@@ -68,9 +80,9 @@ export class Header extends Component {
                 closeModal={() => this.toggleModal()}
               />
 
-            </ModalBody>
+            </div>
 
-          </Modal>
+          </ReactModal>
 
         </span>
 
