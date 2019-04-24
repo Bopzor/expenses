@@ -1,6 +1,6 @@
 'use strict';
 
-const expenses = require('../parseCSV.js');
+const expenses = require('../parseExpensesFromCSV.js');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
