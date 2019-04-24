@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { NavLink, Link } from 'react-router-dom';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { MonthAndYearPicker } from './MonthAndYearPicker';
 
 import './Header.css';
@@ -52,7 +54,7 @@ export class Header extends Component {
         <span onClick={() => this.toggleModal()}>
 
           {this.formatMonthLink(year, month)}
-          <i className="far fa-calendar-alt" />
+          <FontAwesomeIcon icon="calendar-alt" />
 
           <Modal isOpen={this.state.modal} toggle={() => this.toggleModal()}>
 

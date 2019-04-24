@@ -7,6 +7,11 @@ import { InputPage } from './components/InputPage';
 import ExpensePage from './components/ExpensePage';
 import AdvancePage from './components/AdvancePage';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faCalendarAlt);
+
 const App = () => {
   return (
     <div className="App">
