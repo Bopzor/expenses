@@ -1,0 +1,4 @@
+Dockerfile
+.git*
+web/node_modules
+node_modules

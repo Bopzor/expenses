@@ -11,12 +11,16 @@
     "build": "babel api -d lib/api",
     "build:test": "babel tests -d lib/tests",
     "build:app": "cd web && yarn build",
-    "docker:build": "docker build --build-arg REACT_APP_API_URL -t expenses .",
-    "docker:run": "docker run -dt --name expenses-container -v ${PWD}/db:/opt/app/db -u $(id -u):$(id -g) -e PORT=8080 -p 6978:8080 expenses",
+    "docker:build": "docker build -t expenses .",
+    "docker:run": "docker run -dt --name expenses-container -e NODE_ENV=production -e DB_USER -e DB_PWD -e DB_NAME -e DB_HOST -e PORT=8080 -p 6978:8080 expenses",
     "prod": "sequelize db:migrate && db:seed:all && node lib/api/index.js",
     "sequelize": "sequelize"
   },
   "dependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-transform-runtime": "^7.2.0",
+    "@babel/preset-env": "^7.2.3",
     "@babel/helper-module-imports": "^7.0.0",
     "@babel/polyfill": "^7.2.5",
     "@babel/runtime": "^7.2.0",
@@ -33,10 +37,6 @@
     "sequelize-cli": "^5.4.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.2.2",
-    "@babel/plugin-transform-runtime": "^7.2.0",
-    "@babel/preset-env": "^7.2.3",
     "chai": "^4.2.0",
     "chai-exclude": "^2.0.1",
     "mocha": "^5.2.0",
