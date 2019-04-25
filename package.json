@@ -12,8 +12,8 @@
     "build:test": "babel tests -d lib/tests",
     "build:app": "cd web && yarn build",
     "docker:build": "docker build -t expenses .",
-    "docker:run": "docker run -dt --name expenses-container -e NODE_ENV=production -e DB_USER -e DB_PWD -e DB_NAME -e DB_HOST -e PORT=8080 -p 6978:8080 expenses",
-    "prod": "sequelize db:migrate && db:seed:all && node lib/api/index.js",
+    "docker:run": "docker run -dt --name expenses-container --network expenses-network -e NODE_ENV=production -e DB_USER -e DB_PWD -e DB_NAME -e DB_HOST -e PORT=8080 -p 6978:8080 expenses",
+    "prod": "sequelize db:migrate && sequelize db:seed:all && node lib/api/index.js",
     "sequelize": "sequelize"
   },
   "dependencies": {
