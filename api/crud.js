@@ -1,3 +1,4 @@
+import logger from './logger';
 import { validationResult } from 'express-validator/check';
 import Sequelize from 'sequelize';
 
@@ -50,6 +51,9 @@ const create = async (req, res, next) => {
 
     const instance = await req.model.create(req.body);
 
+    logger(`Create ${req.baseUrl.slice(1, req.baseUrl.length - 1)} with ID`, instance.id)
+      .catch(console.log);
+
     return res.status(201).json(instance);
   } catch (e) {
     next(e);
@@ -66,6 +70,9 @@ const update = async (req, res, next) => {
 
     const instance = await req.instance.update(req.body);
 
+    logger(`Update ${req.baseUrl.slice(1, req.baseUrl.length - 1)} with ID`, instance.id)
+      .catch(console.log);
+
     return res.json(instance);
   } catch (e) {
     next(e);
@@ -75,6 +82,9 @@ const update = async (req, res, next) => {
 const remove = async (req, res, next) => {
   try {
     await req.instance.destroy();
+
+    logger(`Remove ${req.baseUrl.slice(1, req.baseUrl.length - 1)} with ID`, req.instance.id)
+      .catch(console.log);
 
     return res.status(204).end();
   } catch (e) {
