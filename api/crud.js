@@ -51,8 +51,13 @@ const create = async (req, res, next) => {
 
     const instance = await req.model.create(req.body);
 
-    logger(`Create ${req.baseUrl.slice(1, req.baseUrl.length - 1)} with ID`, instance.id)
-      .catch(console.log);
+    if (req.model.getTableName() === 'Expenses') {
+      logger('create expense', { id: instance.id })
+        .catch(console.log);
+    } else if (req.model.getTableName() === 'Advances') {
+      logger('create advance', { id: instance.id })
+        .catch(console.log);
+    }
 
     return res.status(201).json(instance);
   } catch (e) {
@@ -70,8 +75,14 @@ const update = async (req, res, next) => {
 
     const instance = await req.instance.update(req.body);
 
-    logger(`Update ${req.baseUrl.slice(1, req.baseUrl.length - 1)} with ID`, instance.id)
-      .catch(console.log);
+
+    if (req.model.getTableName() === 'Expenses') {
+      logger('update expense', { id: instance.id })
+        .catch(console.log);
+    } else if (req.model.getTableName() === 'Advances') {
+      logger('update advance', { id: instance.id })
+        .catch(console.log);
+    }
 
     return res.json(instance);
   } catch (e) {
@@ -83,8 +94,13 @@ const remove = async (req, res, next) => {
   try {
     await req.instance.destroy();
 
-    logger(`Remove ${req.baseUrl.slice(1, req.baseUrl.length - 1)} with ID`, req.instance.id)
-      .catch(console.log);
+    if (req.model.getTableName() === 'Expenses') {
+      logger('remove expense', { id: req.instance.id })
+        .catch(console.log);
+    } else if (req.model.getTableName() === 'Advances') {
+      logger('remove advance', { id: req.instance.id })
+        .catch(console.log);
+    }
 
     return res.status(204).end();
   } catch (e) {
