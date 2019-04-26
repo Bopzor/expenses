@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Switch } from "react-router-dom";
 
 import { ExpenseInput } from './containers/ExpenseInput';
@@ -7,6 +7,7 @@ import { Header } from './Header';
 import { Total } from './containers/Total';
 
 export const InputPage = ({ year, month }) => {
+  const [displayTotal, setDisplayTotal] = useState(true);
   const navPaths = [
     {
       pathname: 'Expense',
@@ -18,20 +19,36 @@ export const InputPage = ({ year, month }) => {
     },
   ];
 
+  const handleInputBlur = () => {
+    setDisplayTotal(true);
+  }
+
+  const handleInputFocus = () => {
+    setDisplayTotal(false);
+  }
+
   return (
     <div>
       <Header navPaths={navPaths} year={year} month={month} />
 
       <Switch>
         <Route path={navPaths[0].path} render={
-          props => <ExpenseInput payementType="expense" />
+          props => <ExpenseInput
+            payementType="expense"
+            onInputFocus={() => handleInputFocus()}
+            onInputBlur={() => handleInputBlur()}
+          />
         } />
         <Route path={navPaths[1].path} render={
-          props => <AdvanceInput payementType="advance" />
+          props => <AdvanceInput
+            payementType="advance"
+            onInputFocus={() => handleInputFocus()}
+            onInputBlur={() => handleInputBlur()}
+          />
         } />
       </Switch>
 
-      <Total year={year} month={month} />
+      { displayTotal && <Total year={year} month={month} /> }
     </div>
   );
 };

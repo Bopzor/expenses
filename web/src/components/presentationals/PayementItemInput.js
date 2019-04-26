@@ -208,7 +208,9 @@ export class PayementItemInput extends React.Component {
                 value={this.state.description}
                 onChange={e => this.onDescriptionChange(e)}
                 invalid={descriptionErrorIdx >= 0}
-                />
+                onFocus={() => this.props.onInputFocus()}
+                onBlur={() => this.props.onInputBlur()}
+              />
 
               {this.renderFeedback(descriptionErrorIdx)}
 
@@ -224,7 +226,9 @@ export class PayementItemInput extends React.Component {
                 value={this.state.cost}
                 onChange={e => this.onCostChange(e)}
                 invalid={costErrorIdx >= 0}
-                />
+                onFocus={() => this.props.onInputFocus()}
+                onBlur={() => this.props.onInputBlur()}
+              />
 
               {this.renderFeedback(costErrorIdx)}
 
@@ -244,7 +248,7 @@ export class PayementItemInput extends React.Component {
                   outline={this.state.buyer !== 'Nils'}
                   className="buyer"
                   color="warning"
-                  >
+                >
                   Nils
                 </Button>
 
