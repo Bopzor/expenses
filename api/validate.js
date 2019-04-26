@@ -4,7 +4,7 @@ const validate = () => {
   return [
     check('description', 'This field is required').exists(),
     check('cost', 'This field is required').exists(),
-    check('cost', 'This field must be an integer').isInt(),
+    check('cost', 'This field must be a number').isNumeric(),
     check('buyer', 'This field is required').exists(),
     check('buyer', 'This field must be Nils or Vio').isIn(['Nils', 'Vio']),
     check('date', 'This field is required').exists(),
