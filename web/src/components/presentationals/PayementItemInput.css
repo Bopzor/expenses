@@ -6,3 +6,14 @@
 .buyer.active {
   font-weight: bold;
 }
+
+.form-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: calc(100vh - 165px);
+}
+
+.action-button-wrapper {
+  margin-top: 10px;
+}

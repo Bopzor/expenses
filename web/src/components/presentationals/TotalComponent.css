@@ -10,9 +10,8 @@ table {
   width: 100%;
 }
 
-.payement-list-table {
+.total-table {
   display: flex;
   flex-direction: column;
   overflow: auto;
-  max-height: calc(100vh - 165px);
 }

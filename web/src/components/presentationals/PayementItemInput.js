@@ -9,8 +9,6 @@ import {
   Col,
   ButtonGroup,
   Button,
-  Form,
-  FormGroup,
   Input,
   Label
 } from 'reactstrap';
@@ -183,116 +181,118 @@ export class PayementItemInput extends React.Component {
     }
 
     return (
-      <Form onSubmit={e => this.submitPayementItem(e)}>
-        <FormGroup>
-          <Label for="date" xs={2}>Date</Label>
-          <Col xs="12">
-            <Input
-              type="date"
-              value={this.state.date}
-              placeholder={this.state.date}
-              onChange={e => this.onDateChange(e)}
-              invalid={dateErrorIdx >= 0}
-            />
-
-            {this.renderFeedback(dateErrorIdx)}
-
-          </Col>
-        </FormGroup>
-
-        <FormGroup>
-          <Col xs="12">
-            <Label for="description">Description</Label>
-            <Input
-              type="text"
-              placeholder='description'
-              value={this.state.description}
-              onChange={e => this.onDescriptionChange(e)}
-              invalid={descriptionErrorIdx >= 0}
+      <div className="form-flex">
+        <form onSubmit={e => this.submitPayementItem(e)}>
+          <div>
+            <Label for="date" xs={2}>Date</Label>
+            <Col xs="12">
+              <Input
+                type="date"
+                value={this.state.date}
+                placeholder={this.state.date}
+                onChange={e => this.onDateChange(e)}
+                invalid={dateErrorIdx >= 0}
               />
 
-            {this.renderFeedback(descriptionErrorIdx)}
+              {this.renderFeedback(dateErrorIdx)}
 
-          </Col>
-        </FormGroup>
+            </Col>
+          </div>
 
-        <FormGroup>
-          <Col xs="12">
-          <Label for="cost">Cost</Label>
-            <Input
-              type="number"
-              placeholder='€'
-              value={this.state.cost}
-              onChange={e => this.onCostChange(e)}
-              invalid={costErrorIdx >= 0}
-              />
+          <div>
+            <Col xs="12">
+              <Label for="description">Description</Label>
+              <Input
+                type="text"
+                placeholder='description'
+                value={this.state.description}
+                onChange={e => this.onDescriptionChange(e)}
+                invalid={descriptionErrorIdx >= 0}
+                />
 
-            {this.renderFeedback(costErrorIdx)}
+              {this.renderFeedback(descriptionErrorIdx)}
 
-          </Col>
-        </FormGroup>
+            </Col>
+          </div>
 
-        <FormGroup>
-          <Col xs="12">
-            <Label for="buyer">Buyer</Label>
-            <br/>
-            <ButtonGroup>
+          <div>
+            <Col xs="12">
+            <Label for="cost">Cost</Label>
+              <Input
+                type="number"
+                placeholder='€'
+                value={this.state.cost}
+                onChange={e => this.onCostChange(e)}
+                invalid={costErrorIdx >= 0}
+                />
 
-              <Button
-                type="button"
-                onClick={() => this.buyerChange('Nils')}
-                active={this.state.buyer === 'Nils'}
-                outline={this.state.buyer !== 'Nils'}
-                className="buyer"
-                color="warning"
-                >
-                Nils
-              </Button>
+              {this.renderFeedback(costErrorIdx)}
 
-              <Button
-                type="button"
-                onClick={() => this.buyerChange('Vio')}
-                active={this.state.buyer === 'Vio'}
-                outline={this.state.buyer !== 'Vio'}
-                className="buyer"
-                color="primary"
-              >
-                Vio
-              </Button>
+            </Col>
+          </div>
 
-            </ButtonGroup>
+          <div>
+            <Col xs="12">
+              <Label for="buyer">Buyer</Label>
+              <br/>
+              <ButtonGroup>
 
-            {this.renderFeedback(buyerErrorIdx)}
-          </Col>
-        </FormGroup>
-
-        <Row>
-
-          <Col>
-            <FormGroup>
-              <Col xs="12">
                 <Button
-                  type="submit"
-                  onClick={e => this.submitPayementItem(e)}
-                  disabled={this.props.isSubmitting || this.state.formErrors.length > 0}
-                >
-                  {this.props.isSubmitting ? 'Loading' : buttonValue}
+                  type="button"
+                  onClick={() => this.buyerChange('Nils')}
+                  active={this.state.buyer === 'Nils'}
+                  outline={this.state.buyer !== 'Nils'}
+                  className="buyer"
+                  color="warning"
+                  >
+                  Nils
                 </Button>
-              </Col>
-            </FormGroup>
-          </Col>
 
-          <Col>
-            <FormGroup>
-              <Col xs="12">
-                {this.renderActionButton()}
-              </Col>
-            </FormGroup>
-          </Col>
+                <Button
+                  type="button"
+                  onClick={() => this.buyerChange('Vio')}
+                  active={this.state.buyer === 'Vio'}
+                  outline={this.state.buyer !== 'Vio'}
+                  className="buyer"
+                  color="primary"
+                >
+                  Vio
+                </Button>
 
-        </Row>
+              </ButtonGroup>
 
-      </Form>
+              {this.renderFeedback(buyerErrorIdx)}
+            </Col>
+          </div>
+
+          <Row className="action-button-wrapper">
+
+            <Col>
+              <div>
+                <Col xs="12">
+                  <Button
+                    type="submit"
+                    onClick={e => this.submitPayementItem(e)}
+                    disabled={this.props.isSubmitting || this.state.formErrors.length > 0}
+                  >
+                    {this.props.isSubmitting ? 'Loading' : buttonValue}
+                  </Button>
+                </Col>
+              </div>
+            </Col>
+
+            <Col>
+              <div>
+                <Col xs="12">
+                  {this.renderActionButton()}
+                </Col>
+              </div>
+            </Col>
+
+          </Row>
+
+        </form>
+      </div>
     );
   }
 };
