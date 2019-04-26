@@ -16,4 +16,10 @@
 
 .action-button-wrapper {
   margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.button-align {
+  text-align: center;
 }

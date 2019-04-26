@@ -5,7 +5,6 @@ import moment from 'moment';
 import './PayementItemInput.css';
 
 import {
-  Row,
   Col,
   ButtonGroup,
   Button,
@@ -269,7 +268,7 @@ export class PayementItemInput extends React.Component {
             </Col>
           </div>
 
-          <Row className="action-button-wrapper">
+          <div className="action-button-wrapper">
 
             <Col>
               <div>
@@ -286,14 +285,14 @@ export class PayementItemInput extends React.Component {
             </Col>
 
             <Col>
-              <div>
+              <div className="button-align">
                 <Col xs="12">
                   {this.renderActionButton()}
                 </Col>
               </div>
             </Col>
 
-          </Row>
+          </div>
 
         </form>
       </div>
