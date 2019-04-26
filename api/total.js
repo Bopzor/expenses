@@ -3,6 +3,8 @@ import express from 'express';
 import Sequelize from 'sequelize';
 import { sequelize } from '../../models';
 
+import moment from 'moment';
+
 const router = express.Router();
 
 const { Expense, Advance } = sequelize.models;
@@ -63,10 +65,8 @@ const parseStringNumberNullToFloat = (total) => {
 
 const getTotalByMonth = async (req, res, next) => {
   try {
-    const date = new Date(req.query.year, req.query.month - 1);
-
-    const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 2);
-    const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+    const startOfMonth = moment([req.query.year, req.query.month - 1]);
+    const endOfMonth = moment(startOfMonth).endOf('month');
 
     const totalExpensesCommon = parseStringNumberNullToFloat(
       await getTotalExpensesCommonByMonth(startOfMonth, endOfMonth)

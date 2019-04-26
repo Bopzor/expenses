@@ -1,6 +1,7 @@
 import logger from './logger';
 import { validationResult } from 'express-validator/check';
 import Sequelize from 'sequelize';
+import moment from 'moment';
 
 const Op = Sequelize.Op;
 
@@ -21,10 +22,8 @@ const getById = async (req, res, next) => {
 
 const getByMonth = async (req, res, next) => {
   try {
-    const date = new Date(req.query.year, req.query.month - 1);
-
-    const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 2);
-    const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+    const startOfMonth = moment([req.query.year, req.query.month - 1]);
+    const endOfMonth = moment(startOfMonth).endOf('month');
 
     const instances = await req.model.findAll({
       where: {
