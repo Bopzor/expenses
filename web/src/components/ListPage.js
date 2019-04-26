@@ -1,5 +1,4 @@
 import React from 'react';
-import { Table } from 'reactstrap';
 
 import { ExpensesList } from './containers/ExpensesList';
 import { AdvancesList } from './containers/AdvancesList';
@@ -23,25 +22,29 @@ export const ListPage = ({ year, month, payementType }) => {
   return (
     <div>
       <Header navPaths={navPaths} year={year} month={month} />
-      <Table size="sm" responsive>
 
-        <thead>
-          <tr>
-            <th scope="col">Date</th>
-            <th scope="col">Description</th>
-            <th scope="col">Cost</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
+      <div className="payement-list-table">
+        <table>
 
-        { payementType === 'expense'
-          ? <ExpensesList payementType={payementType} year={year} month={month} />
-          : <AdvancesList payementType={payementType} year={year} month={month} />
-        }
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Description</th>
+              <th scope="col">Cost</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
 
-      </Table>
+          { payementType === 'expense'
+            ? <ExpensesList payementType={payementType} year={year} month={month} />
+            : <AdvancesList payementType={payementType} year={year} month={month} />
+          }
 
-      <Total className="fixed-bottom" year={year} month={month} />
+        </table>
+      </div>
+
+      <Total year={year} month={month} />
+
     </div>
   );
 }

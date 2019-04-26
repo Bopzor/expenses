@@ -6,9 +6,8 @@ th, td {
   padding: 2px 7px;
 }
 
-.payement-list-table {
+.total-table {
   display: flex;
   flex-direction: column;
   overflow: auto;
-  max-height: calc(100vh - 165px);
 }

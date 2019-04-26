@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Table } from 'reactstrap';
+
+import './TotalComponent.css';
 
 export class TotalComponent extends Component {
   componentDidMount() {
@@ -18,25 +19,25 @@ export class TotalComponent extends Component {
 
     if (error) {
       return (
-        <Table size="sm" responsive className="fixed-bottom">
+        <table>
           <tbody>
             <tr>
               <td colSpan="4">Error! {error.message}</td>
             </tr>
           </tbody>
-        </Table>
+        </table>
       );
     }
 
     if (fetching) {
       return (
-        <Table size="sm" responsive className="fixed-bottom">
+        <table>
           <tbody>
             <tr>
               <td colSpan="4">Loading...</td>
             </tr>
           </tbody>
-        </Table>
+        </table>
       );
     }
 
@@ -44,36 +45,38 @@ export class TotalComponent extends Component {
       return null;
 
     return (
-      <Table size="sm" responsive className="fixed-bottom">
-        <thead className="bg-white">
-          <tr>
-            <th>Expenses</th>
-            <th>Advances</th>
-            <th>Total</th>
-          </tr>
-        </thead>
+      <div className="total-table">
+        <table>
+          <thead className="bg-white">
+            <tr>
+              <th>Expenses</th>
+              <th>Advances</th>
+              <th>Total</th>
+            </tr>
+          </thead>
 
-        <tbody>
+          <tbody>
 
-          <tr className="nils">
-            <td>{nils.expenses}</td>
-            <td>{nils.advances}</td>
-            <td>{nils.total}</td>
-          </tr>
+            <tr className="nils">
+              <td>{nils.expenses}</td>
+              <td>{nils.advances}</td>
+              <td>{nils.total}</td>
+            </tr>
 
-          <tr className="vio">
-            <td>{vio.expenses}</td>
-            <td>{vio.advances}</td>
-            <td>{vio.total}</td>
-          </tr>
+            <tr className="vio">
+              <td>{vio.expenses}</td>
+              <td>{vio.advances}</td>
+              <td>{vio.total}</td>
+            </tr>
 
-          <tr>
-            <td>{totalCommon}</td>
-            <th scope="col" colSpan="2">Total</th>
-          </tr>
+            <tr>
+              <td>{totalCommon}</td>
+              <th scope="col" colSpan="2">Total</th>
+            </tr>
 
-        </tbody>
-      </Table>
+          </tbody>
+        </table>
+      </div>
     );
   }
 }
