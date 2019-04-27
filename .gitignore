@@ -4,3 +4,4 @@ lib
 data
 expenses.conf
 logs
+db-backup
