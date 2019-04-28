@@ -10,6 +10,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 
+if (process.env.NODE_ENV !== 'production') {
+  app.use((req, res, next) => {
+    res.set('Access-Control-Allow-Origin', req.get('origin'));
+    res.set('Access-Control-Allow-Headers', 'content-type');
+    res.set('Access-Control-Allow-Methods', 'DELETE');
+
+    next();
+  });
+}
+
 app.use('/api', api);
 
 app.use((err, req, res, next) => {

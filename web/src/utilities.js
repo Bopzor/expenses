@@ -7,6 +7,8 @@ class RequestError extends Error {
 }
 
 export function myFetch(url, opts = {}) {
+  opts.mode = 'cors';
+
   return fetch(url, opts)
     .then(
       async res => {
