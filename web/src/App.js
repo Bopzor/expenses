@@ -14,7 +14,7 @@ library.add(faCalendarAlt);
 
 const App = () => {
   return (
-    <div>
+    <div className="flex-container">
 
       <Switch>
         <Route path={"/list/expenses/:year/:month"} render={

@@ -20,10 +20,10 @@ export const ListPage = ({ year, month, payementType }) => {
   ];
 
   return (
-    <div>
+    <div className="flex-container">
       <Header navPaths={navPaths} year={year} month={month} />
 
-      <div className="payement-list-table">
+      <div className="payement-list-table flex-1">
         <table>
 
           <thead>
