@@ -14,7 +14,7 @@ if (process.env.NODE_ENV !== 'production') {
   app.use((req, res, next) => {
     res.set('Access-Control-Allow-Origin', req.get('origin'));
     res.set('Access-Control-Allow-Headers', 'content-type');
-    res.set('Access-Control-Allow-Methods', 'DELETE');
+    res.set('Access-Control-Allow-Methods', 'DELETE, PUT, POST, GET');
 
     next();
   });
