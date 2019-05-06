@@ -53,7 +53,7 @@ const getMonthlyTotalAdvancesByBuyer = async (buyer, startOfMonth, endOfMonth) =
 }
 
 const calculateTotal = (sum = 0, expenses = 0, advancesSelf = 0, advancesOther = 0) => {
-  return expenses - sum/2 + advancesSelf - advancesOther;
+  return Math.round((expenses - sum/2 + advancesSelf - advancesOther) * 100) / 100;
 }
 
 const parseStringNumberNullToFloat = (total) => {
