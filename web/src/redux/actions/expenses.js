@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { myFetch } from '../../utilities';
+import { myFetch, validationForm } from '../../utilities';
 import { fetchTotal } from './total';
 
 const BASE_URL = `${process.env.REACT_APP_API_URL}/expenses`;
@@ -171,3 +171,16 @@ export const editExpense = (expense) => (dispatch) => {
     .then(() => dispatch(updateExpense.FINISH()))
     .then(() => dispatch(fetchTotal(moment(expense.date).format('YYYY'), moment(expense.date).format('MM'))));
 };
+
+//  VALIDATE EXPENSE:
+
+export const VALIDATE_EXPENSE_REQUEST = 'VALIDATE_EXPENSE_REQUEST';
+
+export const validateExpense = (fields) => {
+  const errors = validationForm(fields);
+
+  return {
+    type: VALIDATE_EXPENSE_REQUEST,
+    body: errors,
+  };
+}

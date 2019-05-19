@@ -32,3 +32,42 @@ export function myFetch(url, opts = {}) {
       error => console.error('Error: ', error)
     );
 }
+
+function validateDescription(description) {
+  if (description === '')
+    return { param: 'description', msg: 'This field is required.' };
+}
+
+function validateCost(cost) {
+  if (cost === '')
+    return { param: 'cost', msg: 'This field is required and must be a number.' };
+
+  else if (isNaN(cost))
+    return { param: 'cost', msg: 'This field must be a number.' };
+}
+
+export function validationForm(fields) {
+  const errors = [];
+
+  fields.forEach(field => {
+    switch (field.name) {
+      case 'description':
+        if (validateDescription(field.value))
+          errors.push(validateDescription(field.value));
+        break;
+
+      case 'cost':
+        if (validateCost(field.value))
+          errors.push(validateCost(field.value));
+        break;
+
+      default:
+        break;
+    }
+  });
+
+  if (errors.length <= 0)
+    return null;
+
+  return errors;
+}

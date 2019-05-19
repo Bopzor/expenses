@@ -23,7 +23,6 @@ export class PayementItemInput extends React.Component {
       buyer: '',
       initialized: false,
       redirect: '',
-      formErrors: [],
     };
   }
 
@@ -39,38 +38,53 @@ export class PayementItemInput extends React.Component {
       id: nextProps.payementItem.id,
       initialized: true,
       redirect: '',
-      formErrors: [],
     });
   }
 
-  async validateForm() {
-    const errors = [];
+  // validateDescription() {
+  //   if (this.state.description === '')
+  //     return { param: 'description', msg: 'This field is required.' };
+  // }
 
-    if (this.state.description === '') {
-      errors.push({ param: 'description', msg: 'This field is required.' });
-    }
+  // validateCost() {
+  //   if (this.state.cost === '')
+  //     return { param: 'cost', msg: 'This field is required and must be a number.' };
 
-    if (this.state.cost === '') {
-      errors.push({ param: 'cost', msg: 'This field is required.' });
+  //   else if (isNaN(this.state.cost))
+  //     return { param: 'cost', msg: 'This field must be a number.' };
+  // }
 
-    } else if (isNaN(this.state.cost)) {
-      errors.push({ param: 'cost', msg: 'This field must be an number.' });
-    }
+  // validateBuyer() {
+  //   if (this.state.buyer !== 'Nils' && this.state.buyer !== 'Vio')
+  //     return { param: 'buyer', msg: `You must select one buyer.` };
+  // }
 
-    if (this.state.buyer !== 'Nils' && this.state.buyer !== 'Vio') {
-      errors.push({ param: 'buyer', msg: `You must select one buyer.` });
-    }
+  // async validateForm() {
+  //   const errors = [];
 
-    return new Promise(resolve => this.setState({ formErrors: errors }, resolve));
-  }
+  //   errors.push(this.validateDescription());
+  //   errors.push(this.validateCost());
+  //   errors.push(this.validateBuyer());
+
+  //   return new Promise(resolve => this.setState({ formErrors: errors }, resolve));
+  // }
 
   async submitPayementItem(event) {
     event.preventDefault();
     event.stopPropagation();
 
-    await this.validateForm();
+    this.props.validatePayementItemFields([
+      {
+        name: 'description',
+        value: this.state.description,
+      },
+      {
+        name: 'cost',
+        value: this.state.cost,
+      }
+    ]);
 
-    if (this.state.formErrors.length > 0)
+    if (this.props.errors !== null)
       return;
 
     let redirect = (this.props.payementType === 'advance'
@@ -80,24 +94,22 @@ export class PayementItemInput extends React.Component {
 
     if (!this.props.payementItem) {
       await this.props.createPayementItem(this.state);
-      await this.validateForm();
 
       if (this.props.errors === null) {
         this.setState({ redirect });
 
       } else {
-        this.setState({ formErrors: this.props.errors.errors })
+        this.setState({ formErrors: this.props.errors.errors });
       }
 
     } else {
       await this.props.editPayementItem(this.state);
-      await this.validateForm();
 
       if (this.props.errors === null) {
         this.setState({ redirect });
 
       } else {
-        this.setState({ formErrors: this.props.errors.errors })
+        this.setState({ formErrors: this.props.errors.errors });
       }
     }
   }
@@ -107,15 +119,25 @@ export class PayementItemInput extends React.Component {
   }
 
   onDescriptionChange(event) {
-    this.setState({ description: event.target.value }, () => this.validateForm());
+    this.props.validatePayementItemFields([{ name: 'description', value: event.target.value }]);
+    this.setState({ description: event.target.value });
   }
 
   onCostChange(event) {
-    this.setState({ cost: event.target.value }, () => this.validateForm());
+    this.props.validatePayementItemFields([{ name: 'cost', value: event.target.value }]);
+    this.setState({ cost: event.target.value });
   }
 
   buyerChange(buyer) {
-    this.setState({ buyer }, () => this.validateForm());
+    this.setState({ buyer });
+  }
+
+  emptyState() {
+    if (this.state.description === '' || this.state.buyer === '' || this.state.cost === '')
+      return true;
+
+    else
+      return false;
   }
 
   resetPayementInput() {
@@ -127,16 +149,32 @@ export class PayementItemInput extends React.Component {
       advance: false,
       initialized: false,
       redirect: '',
-      formErrors: [],
-    })
+    });
+
+    this.props.validatePayementItemFields([]);
   }
 
   onCancelUpdate() {
-    let redirect = this.props.payementType === 'advance' ?
-      `/list/advances/${moment(this.state.date).format('YYYY')}/${moment(this.state.date).format('MM')}` :
-      `/list/expenses/${moment(this.state.date).format('YYYY')}/${moment(this.state.date).format('MM')}`;
+    let redirect = (this.props.payementType === 'advance'
+      ? `/list/advances/${moment(this.state.date).format('YYYY')}/${moment(this.state.date).format('MM')}`
+      : `/list/expenses/${moment(this.state.date).format('YYYY')}/${moment(this.state.date).format('MM')}`
+    );
 
     this.setState({ redirect })
+  }
+
+  handleBlur() {
+    this.props.validatePayementItemFields([
+      {
+        name: 'description',
+        value: this.state.description,
+      },
+      {
+        name: 'cost',
+        value: this.state.cost,
+      }
+    ]);
+    this.props.onInputBlur();
   }
 
   renderActionButton() {
@@ -155,28 +193,30 @@ export class PayementItemInput extends React.Component {
     )
   }
 
-  renderFeedback(index) {
-    if (index < 0) {
+  renderFeedback(field) {
+    const { errors } = this.props;
+
+    if (!errors)
       return null;
-    }
+
+    const idx = errors.findIndex(i => i.param === field);
+
+    if (idx < 0)
+      return null;
 
     return (
       <div className="feedback">
-        {this.state.formErrors[index].msg}
+        { errors[idx].msg }
       </div>
     )
   }
 
   render() {
+    const { redirect, date, description, cost, buyer } = this.state
     const buttonValue = this.props.payementItem ? 'Edit' : 'Add';
 
-    const dateErrorIdx = this.state.formErrors.findIndex(i => i.param === 'date');
-    const descriptionErrorIdx = this.state.formErrors.findIndex(i => i.param === 'description');
-    const costErrorIdx = this.state.formErrors.findIndex(i => i.param === 'cost');
-    const buyerErrorIdx = this.state.formErrors.findIndex(i => i.param === 'buyer');
-
-    if (this.state.redirect !== '') {
-      return <Redirect to={this.state.redirect} />
+    if (redirect !== '') {
+      return <Redirect to={redirect} />
     }
 
     return (
@@ -187,14 +227,10 @@ export class PayementItemInput extends React.Component {
             <Col xs="12">
               <Input
                 type="date"
-                value={this.state.date}
-                placeholder={this.state.date}
+                value={date}
+                placeholder={date}
                 onChange={e => this.onDateChange(e)}
-                invalid={dateErrorIdx >= 0}
               />
-
-              {this.renderFeedback(dateErrorIdx)}
-
             </Col>
           </div>
 
@@ -204,14 +240,14 @@ export class PayementItemInput extends React.Component {
               <Input
                 type="text"
                 placeholder='description'
-                value={this.state.description}
+                value={description}
                 onChange={e => this.onDescriptionChange(e)}
-                invalid={descriptionErrorIdx >= 0}
+                invalid={this.renderFeedback('description') !== null}
                 onFocus={() => this.props.onInputFocus()}
-                onBlur={() => this.props.onInputBlur()}
+                onBlur={() => this.handleBlur('description')}
               />
 
-              {this.renderFeedback(descriptionErrorIdx)}
+              { this.renderFeedback('description') }
 
             </Col>
           </div>
@@ -222,14 +258,14 @@ export class PayementItemInput extends React.Component {
               <Input
                 type="number"
                 placeholder='€'
-                value={this.state.cost}
+                value={cost}
                 onChange={e => this.onCostChange(e)}
-                invalid={costErrorIdx >= 0}
+                invalid={this.renderFeedback('cost') !== null}
                 onFocus={() => this.props.onInputFocus()}
-                onBlur={() => this.props.onInputBlur()}
+                onBlur={() => this.handleBlur('cost')}
               />
 
-              {this.renderFeedback(costErrorIdx)}
+              { this.renderFeedback('cost') }
 
             </Col>
           </div>
@@ -243,8 +279,8 @@ export class PayementItemInput extends React.Component {
                 <Button
                   type="button"
                   onClick={() => this.buyerChange('Nils')}
-                  active={this.state.buyer === 'Nils'}
-                  outline={this.state.buyer !== 'Nils'}
+                  active={buyer === 'Nils'}
+                  outline={buyer !== 'Nils'}
                   className="buyer"
                   color="warning"
                 >
@@ -254,8 +290,8 @@ export class PayementItemInput extends React.Component {
                 <Button
                   type="button"
                   onClick={() => this.buyerChange('Vio')}
-                  active={this.state.buyer === 'Vio'}
-                  outline={this.state.buyer !== 'Vio'}
+                  active={buyer === 'Vio'}
+                  outline={buyer !== 'Vio'}
                   className="buyer"
                   color="primary"
                 >
@@ -264,7 +300,7 @@ export class PayementItemInput extends React.Component {
 
               </ButtonGroup>
 
-              {this.renderFeedback(buyerErrorIdx)}
+              { this.renderFeedback('buyer') }
             </Col>
           </div>
 
@@ -276,7 +312,7 @@ export class PayementItemInput extends React.Component {
                   <Button
                     type="submit"
                     onClick={e => this.submitPayementItem(e)}
-                    disabled={this.props.isSubmitting || this.state.formErrors.length > 0}
+                    disabled={this.props.isSubmitting || (this.props.errors && this.props.errors.length > 0) || this.emptyState() }
                   >
                     {this.props.isSubmitting ? 'Loading' : buttonValue}
                   </Button>
@@ -287,7 +323,7 @@ export class PayementItemInput extends React.Component {
             <Col>
               <div className="button-align">
                 <Col xs="12">
-                  {this.renderActionButton()}
+                  { this.renderActionButton() }
                 </Col>
               </div>
             </Col>

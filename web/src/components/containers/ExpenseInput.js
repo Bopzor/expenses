@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { createExpense, editExpense } from '../../redux/actions';
+import { createExpense, editExpense, validateExpense } from '../../redux/actions';
 
 import { PayementItemInput } from '../presentationals/PayementItemInput';
 
@@ -11,6 +11,7 @@ const mapsStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   createPayementItem: body => dispatch(createExpense(body)),
   editPayementItem: body => dispatch(editExpense(body)),
+  validatePayementItemFields: body => dispatch(validateExpense(body)),
 });
 
 export const ExpenseInput = connect(mapsStateToProps, mapDispatchToProps)(PayementItemInput);

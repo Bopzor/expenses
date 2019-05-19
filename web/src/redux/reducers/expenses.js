@@ -15,6 +15,7 @@ import {
   UPDATE_EXPENSE_SUCCESS,
   UPDATE_EXPENSE_FAILURE,
   UPDATE_EXPENSE_FINISH,
+  VALIDATE_EXPENSE_REQUEST,
 } from '../actions';
 
 const defaultState = {
@@ -134,6 +135,12 @@ export const expenses = (state = defaultState, action) => {
         ...state,
         updatingExpense: false,
       };
+
+    case VALIDATE_EXPENSE_REQUEST:
+      return {
+        ...state,
+        errors: action.body,
+      }
 
     default:
       return state;
