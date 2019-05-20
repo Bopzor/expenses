@@ -2,14 +2,24 @@ import { check } from 'express-validator/check';
 
 const validate = () => {
   return [
-    check('description', 'This field is required').exists(),
-    check('cost', 'This field is required').exists(),
-    check('cost', 'This field must be a number').isNumeric(),
-    check('buyer', 'This field is required').exists(),
-    check('buyer', 'This field must be Nils or Vio').isIn(['Nils', 'Vio']),
-    check('date', 'This field is required').exists(),
-    check('date', 'This field must be a date').isISO8601(),
+    check('description').exists().withMessage('This field is required'),
+    check('cost')
+      .exists().withMessage('This field is required')
+      .isNumeric().withMessage('This field must be a number'),
+    check('buyer')
+      .exists().withMessage('This field is required')
+      .isIn(['Nils', 'Vio']).withMessage('This field must be Nils or Vio'),
+    check('date')
+      .exists().withMessage('This field is required')
+      .isISO8601().withMessage('This field must be a date'),
   ]
 }
 
-module.exports = validate;
+const formatErrors = ({ msg, value  }) => {
+  return {
+    message: msg,
+    value,
+  };
+};
+
+module.exports = { validate, formatErrors };

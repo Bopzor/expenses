@@ -2,7 +2,7 @@ import express from 'express';
 
 import { sequelize } from '../../models';
 
-import validate from './validate';
+import { validate } from './validate';
 import { getById, getByMonth, create, update, remove } from './crud';
 
 const router = express.Router();
