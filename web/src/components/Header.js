@@ -42,10 +42,10 @@ export class Header extends Component {
   }
 
   render() {
-    const { year, month, navPaths } = this.props;
+    const { year, month, navPaths, display } = this.props;
 
     return (
-      <nav className="header">
+      <nav className={display === true ? 'header' : 'header hidden' }>
 
         {
           navPaths ? navPaths.map(elem => this.renderPayementTypeNav(elem)) : null

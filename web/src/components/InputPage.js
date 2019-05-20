@@ -7,7 +7,7 @@ import { Header } from './Header';
 import { Total } from './containers/Total';
 
 export const InputPage = ({ year, month }) => {
-  const [displayTotal, setDisplayTotal] = useState(true);
+  const [displayHeaderAndTotal, setDisplayHeaderAndTotal] = useState(true);
   const navPaths = [
     {
       pathname: 'Expense',
@@ -20,16 +20,16 @@ export const InputPage = ({ year, month }) => {
   ];
 
   const handleInputBlur = () => {
-    setDisplayTotal(true);
+    setDisplayHeaderAndTotal(true);
   }
 
   const handleInputFocus = () => {
-    setDisplayTotal(false);
+    setDisplayHeaderAndTotal(false);
   }
 
   return (
     <div>
-      <Header navPaths={navPaths} year={year} month={month} />
+      <Header display={displayHeaderAndTotal} navPaths={navPaths} year={year} month={month} />
 
       <Switch>
         <Route path={navPaths[0].path} render={
@@ -48,7 +48,7 @@ export const InputPage = ({ year, month }) => {
         } />
       </Switch>
 
-      { displayTotal && <Total year={year} month={month} /> }
+      <Total display={displayHeaderAndTotal} year={year} month={month} />
     </div>
   );
 };

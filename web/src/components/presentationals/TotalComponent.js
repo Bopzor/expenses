@@ -14,7 +14,7 @@ export class TotalComponent extends Component {
   }
 
   render() {
-    const { error, fetching, total } = this.props;
+    const { error, fetching, total, display = true } = this.props;
     const { nils, vio, totalCommon } = total;
 
     if (error) {
@@ -45,7 +45,7 @@ export class TotalComponent extends Component {
       return null;
 
     return (
-      <div className="total-table">
+      <div className={display === true ? 'total-table' : 'total-table hidden' }>
         <table>
           <thead className="bg-white">
             <tr>

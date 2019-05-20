@@ -9,15 +9,15 @@ import { Total } from './containers/Total';
 class ExpensePage extends Component {
   state = {
     expense: this.props.expenses.filter(e => e.id === parseInt(this.props.id))[0],
-    displayTotal: true,
+    displayHeaderAndTotal: true,
   }
 
   handleInputBlur() {
-    this.setState({ displayTotal: true });
+    this.setState({ displayHeaderAndTotal: true });
   }
 
   handleInputFocus() {
-    this.setState({ displayTotal: false });
+    this.setState({ displayHeaderAndTotal: false });
   }
 
   render() {
@@ -27,7 +27,7 @@ class ExpensePage extends Component {
 
     return (
       <div>
-        <Header year={year} month={month} />
+        <Header display={this.state.displayHeaderAndTotal} year={year} month={month} />
 
         <ExpenseInput
           payementType="expense"
@@ -36,7 +36,7 @@ class ExpensePage extends Component {
           onInputBlur={() => this.handleInputBlur()}
         />
 
-        { this.state.displayTotal && <Total year={year} month={month} /> }
+        <Total display={this.state.displayHeaderAndTotal} year={year} month={month} />
       </div>
     );
 
