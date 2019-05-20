@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { myFetch } from '../../utilities';
+import { myFetch, validationForm, validationFormField } from '../../utilities';
 import { fetchTotal } from './total';
 
 const BASE_URL = `${process.env.REACT_APP_API_URL}/advances`;
@@ -57,7 +57,7 @@ const addAdvance = {
   }),
   FAILURE: (error) => ({
     type: ADD_ADVANCE_FAILURE,
-    body: error.body,
+    body: error.body.errors,
   }),
   FINISH: () => ({
     type: ADD_ADVANCE_FINISH,
@@ -144,7 +144,7 @@ const updateAdvance = {
   }),
   FAILURE: (error) => ({
     type: UPDATE_ADVANCE_FAILURE,
-    body: error.body,
+    body: error.body.errors,
   }),
   FINISH: () => ({
     type: UPDATE_ADVANCE_FINISH,
@@ -171,3 +171,26 @@ export const editAdvance = (advance) => (dispatch) => {
     .then(() => dispatch(updateAdvance.FINISH()))
     .then(() => dispatch(fetchTotal(moment(advance.date).format('YYYY'), moment(advance.date).format('MM'))));
 };
+
+//  VALIDATE ADVANCE:
+
+export const VALIDATE_ADVANCE_REQUEST = 'VALIDATE_ADVANCE_REQUEST';
+export const VALIDATE_FIELD_REQUEST = 'VALIDATE_FIELD_REQUEST';
+
+export const validateAdvance = (fields) => {
+  const errors = validationForm(fields);
+
+  return {
+    type: VALIDATE_ADVANCE_REQUEST,
+    body: errors,
+  };
+}
+
+export const validateField = (field) => {
+  const error = validationFormField(field);
+
+  return {
+    type: VALIDATE_FIELD_REQUEST,
+    body: error,
+  };
+}

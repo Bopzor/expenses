@@ -15,6 +15,8 @@ import {
   UPDATE_ADVANCE_SUCCESS,
   UPDATE_ADVANCE_FAILURE,
   UPDATE_ADVANCE_FINISH,
+  VALIDATE_ADVANCE_REQUEST,
+  VALIDATE_FIELD_REQUEST,
 } from '../actions';
 
 const defaultState = {
@@ -134,6 +136,20 @@ export const advances = (state = defaultState, action) => {
         ...state,
         updatingAdvance: false,
       };
+
+      case VALIDATE_ADVANCE_REQUEST:
+        return {
+          ...state,
+          errors: action.body,
+        }
+
+      case VALIDATE_FIELD_REQUEST:
+        return {
+          ...state,
+          errors: state.errors === null
+            ? { [action.body.name]: { message: action.body.message} }
+            : { ...state.errors, [action.body.name]: { message: action.body.message } },
+        }
 
     default:
       return state;

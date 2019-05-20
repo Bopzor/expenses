@@ -16,6 +16,7 @@ import {
   UPDATE_EXPENSE_FAILURE,
   UPDATE_EXPENSE_FINISH,
   VALIDATE_EXPENSE_REQUEST,
+  VALIDATE_FIELD_REQUEST,
 } from '../actions';
 
 const defaultState = {
@@ -140,6 +141,14 @@ export const expenses = (state = defaultState, action) => {
       return {
         ...state,
         errors: action.body,
+      }
+
+    case VALIDATE_FIELD_REQUEST:
+      return {
+        ...state,
+        errors: state.errors === null
+          ? { [action.body.name]: { message: action.body.message} }
+          : { ...state.errors, [action.body.name]: { message: action.body.message } },
       }
 
     default:

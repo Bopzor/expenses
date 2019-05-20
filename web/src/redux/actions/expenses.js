@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { myFetch, validationForm } from '../../utilities';
+import { myFetch, validationForm, validationFormField } from '../../utilities';
 import { fetchTotal } from './total';
 
 const BASE_URL = `${process.env.REACT_APP_API_URL}/expenses`;
@@ -57,7 +57,7 @@ const addExpense = {
   }),
   FAILURE: (error) => ({
     type: ADD_EXPENSE_FAILURE,
-    body: error.body,
+    body: error.body.errors,
   }),
   FINISH: () => ({
     type: ADD_EXPENSE_FINISH,
@@ -144,7 +144,7 @@ const updateExpense = {
   }),
   FAILURE: (error) => ({
     type: UPDATE_EXPENSE_FAILURE,
-    body: error.body,
+    body: error.body.errors,
   }),
   FINISH: () => ({
     type: UPDATE_EXPENSE_FINISH,
@@ -175,6 +175,7 @@ export const editExpense = (expense) => (dispatch) => {
 //  VALIDATE EXPENSE:
 
 export const VALIDATE_EXPENSE_REQUEST = 'VALIDATE_EXPENSE_REQUEST';
+export const VALIDATE_FIELD_REQUEST = 'VALIDATE_FIELD_REQUEST';
 
 export const validateExpense = (fields) => {
   const errors = validationForm(fields);
@@ -182,5 +183,14 @@ export const validateExpense = (fields) => {
   return {
     type: VALIDATE_EXPENSE_REQUEST,
     body: errors,
+  };
+}
+
+export const validateField = (field) => {
+  const error = validationFormField(field);
+
+  return {
+    type: VALIDATE_FIELD_REQUEST,
+    body: error,
   };
 }

@@ -33,41 +33,38 @@ export function myFetch(url, opts = {}) {
     );
 }
 
-function validateDescription(description) {
-  if (description === '')
-    return { param: 'description', msg: 'This field is required.' };
-}
+const validate = {
+  description: (description) => {
+    if (description === '')
+      return { message: 'This field is required.' };
+  },
+  cost: (cost) => {
+    if (cost === '')
+      return { message: 'This field is required and must be a number.' };
 
-function validateCost(cost) {
-  if (cost === '')
-    return { param: 'cost', msg: 'This field is required and must be a number.' };
-
-  else if (isNaN(cost))
-    return { param: 'cost', msg: 'This field must be a number.' };
+   else if (isNaN(cost))
+    return { message: 'This field must be a number.' };
+  }
 }
 
 export function validationForm(fields) {
-  const errors = [];
+  const errors = {};
+  const descriptionError = validate.description(fields.description);
+  const costError = validate.cost(fields.cost);
 
-  fields.forEach(field => {
-    switch (field.name) {
-      case 'description':
-        if (validateDescription(field.value))
-          errors.push(validateDescription(field.value));
-        break;
+  if (descriptionError)
+    errors.description = descriptionError;
 
-      case 'cost':
-        if (validateCost(field.value))
-          errors.push(validateCost(field.value));
-        break;
+  if (costError)
+    errors.cost = costError;
 
-      default:
-        break;
-    }
-  });
+  return Object.keys(errors).length === 0 ? null : errors;
+}
 
-  if (errors.length <= 0)
-    return null;
+export function validationFormField(field) {
+  const errorMessage = validate[field.name](field.value);
 
-  return errors;
+  const error = { name: field.name, message: (errorMessage !== undefined ? errorMessage.message : undefined) }
+
+  return error;
 }

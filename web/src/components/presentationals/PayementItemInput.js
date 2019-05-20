@@ -41,48 +41,11 @@ export class PayementItemInput extends React.Component {
     });
   }
 
-  // validateDescription() {
-  //   if (this.state.description === '')
-  //     return { param: 'description', msg: 'This field is required.' };
-  // }
-
-  // validateCost() {
-  //   if (this.state.cost === '')
-  //     return { param: 'cost', msg: 'This field is required and must be a number.' };
-
-  //   else if (isNaN(this.state.cost))
-  //     return { param: 'cost', msg: 'This field must be a number.' };
-  // }
-
-  // validateBuyer() {
-  //   if (this.state.buyer !== 'Nils' && this.state.buyer !== 'Vio')
-  //     return { param: 'buyer', msg: `You must select one buyer.` };
-  // }
-
-  // async validateForm() {
-  //   const errors = [];
-
-  //   errors.push(this.validateDescription());
-  //   errors.push(this.validateCost());
-  //   errors.push(this.validateBuyer());
-
-  //   return new Promise(resolve => this.setState({ formErrors: errors }, resolve));
-  // }
-
   async submitPayementItem(event) {
     event.preventDefault();
     event.stopPropagation();
 
-    this.props.validatePayementItemFields([
-      {
-        name: 'description',
-        value: this.state.description,
-      },
-      {
-        name: 'cost',
-        value: this.state.cost,
-      }
-    ]);
+    this.props.validatePayementItem({ description: this.state.description, cost: this.state.cost });
 
     if (this.props.errors !== null)
       return;
@@ -97,20 +60,16 @@ export class PayementItemInput extends React.Component {
 
       if (this.props.errors === null) {
         this.setState({ redirect });
-
-      } else {
-        this.setState({ formErrors: this.props.errors.errors });
-      }
+      } else
+        return;
 
     } else {
       await this.props.editPayementItem(this.state);
 
       if (this.props.errors === null) {
         this.setState({ redirect });
-
-      } else {
-        this.setState({ formErrors: this.props.errors.errors });
-      }
+      } else
+        return;
     }
   }
 
@@ -119,12 +78,12 @@ export class PayementItemInput extends React.Component {
   }
 
   onDescriptionChange(event) {
-    this.props.validatePayementItemFields([{ name: 'description', value: event.target.value }]);
+    this.props.validateField({ name: 'description', value: event.target.value });
     this.setState({ description: event.target.value });
   }
 
   onCostChange(event) {
-    this.props.validatePayementItemFields([{ name: 'cost', value: event.target.value }]);
+    this.props.validateField({ name: 'cost', value: event.target.value });
     this.setState({ cost: event.target.value });
   }
 
@@ -151,7 +110,6 @@ export class PayementItemInput extends React.Component {
       redirect: '',
     });
 
-    this.props.validatePayementItemFields([]);
   }
 
   onCancelUpdate() {
@@ -161,20 +119,6 @@ export class PayementItemInput extends React.Component {
     );
 
     this.setState({ redirect })
-  }
-
-  handleBlur() {
-    this.props.validatePayementItemFields([
-      {
-        name: 'description',
-        value: this.state.description,
-      },
-      {
-        name: 'cost',
-        value: this.state.cost,
-      }
-    ]);
-    this.props.onInputBlur();
   }
 
   renderActionButton() {
@@ -196,23 +140,22 @@ export class PayementItemInput extends React.Component {
   renderFeedback(field) {
     const { errors } = this.props;
 
-    if (!errors)
+    if (!errors || !errors[field])
       return null;
 
-    const idx = errors.findIndex(i => i.param === field);
-
-    if (idx < 0)
+    if (errors[field] && errors[field].message === undefined )
       return null;
 
     return (
       <div className="feedback">
-        { errors[idx].msg }
+        { errors[field].message }
       </div>
-    )
+    );
   }
 
   render() {
-    const { redirect, date, description, cost, buyer } = this.state
+    const { redirect, date, description, cost, buyer } = this.state;
+    const { errors, onInputFocus, onInputBlur, isSubmitting } = this.props;
     const buttonValue = this.props.payementItem ? 'Edit' : 'Add';
 
     if (redirect !== '') {
@@ -231,6 +174,8 @@ export class PayementItemInput extends React.Component {
                 placeholder={date}
                 onChange={e => this.onDateChange(e)}
               />
+
+              { this.renderFeedback('date') }
             </Col>
           </div>
 
@@ -242,13 +187,12 @@ export class PayementItemInput extends React.Component {
                 placeholder='description'
                 value={description}
                 onChange={e => this.onDescriptionChange(e)}
-                invalid={this.renderFeedback('description') !== null}
-                onFocus={() => this.props.onInputFocus()}
-                onBlur={() => this.handleBlur('description')}
+                invalid={errors && errors.description && errors.description.message !== undefined}
+                onFocus={() => onInputFocus()}
+                onBlur={() => onInputBlur()}
               />
 
               { this.renderFeedback('description') }
-
             </Col>
           </div>
 
@@ -260,13 +204,12 @@ export class PayementItemInput extends React.Component {
                 placeholder='€'
                 value={cost}
                 onChange={e => this.onCostChange(e)}
-                invalid={this.renderFeedback('cost') !== null}
-                onFocus={() => this.props.onInputFocus()}
-                onBlur={() => this.handleBlur('cost')}
+                invalid={errors && errors.cost && errors.cost.message !== undefined}
+                onFocus={() => onInputFocus()}
+                onBlur={() => onInputBlur()}
               />
 
               { this.renderFeedback('cost') }
-
             </Col>
           </div>
 
@@ -312,9 +255,13 @@ export class PayementItemInput extends React.Component {
                   <Button
                     type="submit"
                     onClick={e => this.submitPayementItem(e)}
-                    disabled={this.props.isSubmitting || (this.props.errors && this.props.errors.length > 0) || this.emptyState() }
+                    disabled={
+                      isSubmitting
+                      || (errors && Object.values(errors).some(s => s.message !== undefined))
+                      || this.emptyState()
+                    }
                   >
-                    {this.props.isSubmitting ? 'Loading' : buttonValue}
+                    { isSubmitting ? 'Loading' : buttonValue }
                   </Button>
                 </Col>
               </div>
