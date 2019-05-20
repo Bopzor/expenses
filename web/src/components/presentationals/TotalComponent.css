@@ -15,3 +15,7 @@ table {
   flex-direction: column;
   overflow: auto;
 }
+
+.hidden {
+  display: none;
+}

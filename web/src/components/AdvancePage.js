@@ -9,15 +9,15 @@ import { Total } from './containers/Total';
 class AdvancePage extends Component {
   state = {
     advance: this.props.advances.filter(a => a.id === parseInt(this.props.id))[0],
-    displayTotal: true,
+    displayAndHeaderTotal: true,
   }
 
   handleInputBlur() {
-    this.setState({ displayTotal: true });
+    this.setState({ displayAndHeaderTotal: true });
   }
 
   handleInputFocus() {
-    this.setState({ displayTotal: false });
+    this.setState({ displayAndHeaderTotal: false });
   }
 
   render() {
@@ -27,7 +27,7 @@ class AdvancePage extends Component {
 
     return (
       <div>
-        <Header year={year} month={month} />
+        <Header display={this.state.displayAndHeaderTotal} year={year} month={month} />
 
         <AdvanceInput
           payementType="advance"
@@ -36,7 +36,7 @@ class AdvancePage extends Component {
           onInputBlur={() => this.handleInputBlur()}
         />
 
-        { this.state.displayTotal && <Total year={year} month={month} /> }
+        <Total display={this.state.displayAndHeaderTotal} year={year} month={month} />
       </div>
     );
 
