@@ -17,5 +17,5 @@ table {
 }
 
 .hidden {
-  display: none;
+  visibility: hidden;
 }
