@@ -47,7 +47,7 @@ export class PayementItemInput extends React.Component {
 
     this.props.validatePayementItem({ description: this.state.description, cost: this.state.cost });
 
-    if (this.props.errors !== null)
+    if (this.hasErrors())
       return;
 
     let redirect = (this.props.payementType === 'advance'
@@ -99,17 +99,22 @@ export class PayementItemInput extends React.Component {
       return false;
   }
 
+  hasErrors() {
+    if (this.props.errors === null)
+      return false;
+
+    return Object.values(this.props.errors).some(s => s.message !== undefined);
+  }
+
   resetPayementInput() {
     this.setState({
       date: moment().format('YYYY-MM-DD'),
       description: '',
       cost: '',
       buyer: '',
-      advance: false,
       initialized: false,
       redirect: '',
     });
-
   }
 
   onCancelUpdate() {
@@ -118,7 +123,7 @@ export class PayementItemInput extends React.Component {
       : `/list/expenses/${moment(this.state.date).format('YYYY')}/${moment(this.state.date).format('MM')}`
     );
 
-    this.setState({ redirect })
+    this.setState({ redirect });
   }
 
   renderActionButton() {
@@ -257,7 +262,7 @@ export class PayementItemInput extends React.Component {
                     onClick={e => this.submitPayementItem(e)}
                     disabled={
                       isSubmitting
-                      || (errors && Object.values(errors).some(s => s.message !== undefined))
+                      || this.hasErrors()
                       || this.emptyState()
                     }
                   >
