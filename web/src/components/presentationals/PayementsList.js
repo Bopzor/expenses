@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
 import { PayementItem } from './PayementItem';
 
@@ -27,8 +26,7 @@ export class PayementsList extends React.Component {
   }
 
   render() {
-    const { error, fetching, payementItems, payementType, year, month } = this.props;
-    const inputPath =  `/add/${year}/${month}/${payementType}`;
+    const { error, fetching, payementItems } = this.props;
 
     if (error) {
       return (
@@ -55,11 +53,6 @@ export class PayementsList extends React.Component {
 
     return (
       <tbody>
-        <tr>
-          <td colSpan="4">
-            <NavLink exact to={inputPath}>Add new {payementType}</NavLink>
-          </td>
-        </tr>
         {payementItems.map(p => this.renderPayementItem(p))}
       </tbody>
     );

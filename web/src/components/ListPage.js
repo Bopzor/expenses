@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 import { ExpensesList } from './containers/ExpensesList';
 import { AdvancesList } from './containers/AdvancesList';
@@ -18,6 +19,8 @@ export const ListPage = ({ year, month, payementType }) => {
       path: `/list/advances/${year}/${month}`
     },
   ];
+
+  const inputPath =  `/add/${year}/${month}/${payementType}`;
 
   return (
     <div className="flex-container">
@@ -42,6 +45,8 @@ export const ListPage = ({ year, month, payementType }) => {
 
         </table>
       </div>
+
+      <NavLink className="add-payement" exact to={inputPath}>Add new {payementType}</NavLink>
 
       <Total year={year} month={month} />
 

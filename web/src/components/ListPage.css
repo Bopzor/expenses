@@ -14,5 +14,13 @@ table {
   display: flex;
   flex-direction: column;
   overflow: auto;
-  max-height: calc(100vh - 165px);
+  max-height: calc(100vh - 190px);
+}
+
+.add-payement {
+  text-align: center;
+  color: #fff;
+  background-color: #6c757d;
+  border-top: 1px solid #dee2e6;
+  padding: 2px 7px;
 }
