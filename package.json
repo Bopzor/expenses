@@ -29,7 +29,7 @@
     "express": "^4.16.4",
     "express-validator": "^5.3.1",
     "fs-extra": "^7.0.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "parse-csv": "^0.2.0",
     "pg": "^7.7.1",
     "pg-hstore": "^2.3.2",
